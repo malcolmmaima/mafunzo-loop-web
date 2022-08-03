@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import Utils from "../helpers/utils";
 import { AuthService } from "../shared/services/auth.service";
 import { User } from "../shared/services/user";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-signup",
@@ -13,7 +14,8 @@ export class SignupComponent implements OnInit {
   loading = false;
   constructor(
     private formBuilder: FormBuilder,
-    public authService: AuthService
+    public authService: AuthService,
+    public router: Router
   ) {}
 
   signupForm!: FormGroup;
@@ -23,6 +25,10 @@ export class SignupComponent implements OnInit {
       inputEmail: ["", Validators.required],
       inputPassword: ["", [Validators.required]],
     });
+    if (this.authService.isLoggedIn) {
+      this.loading = false;
+      this.router.navigate(["dashboard"]);
+    }
   }
 
   signup() {

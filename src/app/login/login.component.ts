@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import Utils from "../helpers/utils";
 import { AuthService } from "../shared/services/auth.service";
 
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   loading = false;
   constructor(
     private formBuilder: FormBuilder,
-    public authService: AuthService
+    public authService: AuthService,
+    public router: Router
   ) {}
   loginForm!: FormGroup;
   ngOnInit(): void {
@@ -22,10 +24,18 @@ export class LoginComponent implements OnInit {
       inputEmail: ["", Validators.required],
       inputPassword: ["", [Validators.required]],
     });
+
+    if (this.authService.isLoggedIn) {
+      this.loading = false;
+      this.router.navigate(["dashboard"]);
+    }
   }
 
   login() {
     this.loading = true;
-    console.log("Form user data", this.loginForm.value);
+    this.authService.SignIn(
+      this.loginForm.value.inputEmail,
+      this.loginForm.value.inputPassword
+    );
   }
 }
