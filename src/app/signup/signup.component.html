@@ -1,0 +1,116 @@
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <!-- The image half -->
+    <div class="col-md-6 d-none d-md-flex bg-image"></div>
+
+    <!-- The content half -->
+    <div class="col-md-6 bg-light">
+      <div class="login d-flex align-items-center py-5">
+        <!-- Demo content-->
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10 col-xl-7 mx-auto">
+              <!-- A logo above the form of small size -->
+              <div class="text-center mb-4">
+                <img
+                  src="assets/img/logo.png"
+                  alt="Mafunzo"
+                  width="100"
+                  class="mb-2"
+                />
+                <h3 class="display-5 text-center">Signup for Mafunzo</h3>
+                <p class="text-muted mb-0">
+                  Please fill your school details to sign up.
+                </p>
+              </div>
+
+              <form [formGroup]="signupForm" (ngSubmit)="signup()">
+                <div class="form-group mb-3">
+                  <input
+                    id="inputSchoolName"
+                    formControlName="inputSchoolName"
+                    type="text"
+                    placeholder="School Name"
+                    required=""
+                    autofocus=""
+                    class="form-control rounded-pill border-0 shadow-sm px-4"
+                  /><span
+                    class="text-danger"
+                    *ngIf="
+                      signupForm.controls['inputSchoolName'].dirty &&
+                      signupForm.hasError('inputSchoolName', 'inputSchoolName')
+                    "
+                    >School name is required</span
+                  >
+                </div>
+                <div class="form-group mb-3">
+                  <input
+                    id="inputEmail"
+                    formControlName="inputEmail"
+                    type="email"
+                    placeholder="Email address"
+                    required=""
+                    autofocus=""
+                    class="form-control rounded-pill border-0 shadow-sm px-4"
+                  /><span
+                    class="text-danger"
+                    *ngIf="
+                      signupForm.controls['inputEmail'].dirty &&
+                      signupForm.hasError('inputEmail', 'inputEmail')
+                    "
+                    >Email address is required</span
+                  >
+                </div>
+                <div class="form-group mb-3">
+                  <input
+                    id="inputPassword"
+                    formControlName="inputPassword"
+                    type="password"
+                    placeholder="Password"
+                    required=""
+                    class="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
+                  /><span
+                    class="text-danger"
+                    *ngIf="
+                      signupForm.controls['inputPassword'].dirty &&
+                      signupForm.hasError('inputPassword', 'inputPassword')
+                    "
+                    >Password is required</span
+                  >
+                </div>
+                <div class="custom-control custom-checkbox mb-3">
+                  <input
+                    id="customCheck1"
+                    type="checkbox"
+                    checked
+                    class="custom-control-input"
+                  />
+                  <label for="customCheck1" class="custom-control-label"
+                    >Remember password</label
+                  >
+                </div>
+                <button
+                  class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                  [disabled]="signupForm.invalid"
+                >
+                  <i class="fa fa-spinner fa-spin" *ngIf="loading"> </i>
+                  Sign up
+                </button>
+                <div class="text-center d-flex justify-content-between mt-4">
+                  <p>
+                    Already have an account?
+                    <a href="#" class="font-italic text-muted">
+                      <u>Sign in</u></a
+                    >
+                  </p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- End -->
+      </div>
+    </div>
+    <!-- End -->
+  </div>
+</div>
