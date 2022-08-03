@@ -44,6 +44,12 @@ export class AuthService {
       .catch((error) => {
         if (error.code === "auth/user-not-found") {
           this.toastr.error("User not found");
+        } else if (error.code === "auth/wrong-password") {
+          this.toastr.error("Wrong password");
+        } else if (error.code === "auth/too-many-requests") {
+          this.toastr.error("Too many requests");
+        } else if (error.code === "auth/user-disabled") {
+          this.toastr.error("User disabled");
         } else {
           this.toastr.error("Unable to login, " + error.message);
         }
@@ -122,7 +128,7 @@ export class AuthService {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem("user");
       this.router.navigate(["/"]);
-      this.toastr.success("Logged out successfully");
+      this.toastr.success("See you later!");
     });
   }
 }
