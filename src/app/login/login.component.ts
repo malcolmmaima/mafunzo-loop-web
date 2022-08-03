@@ -33,9 +33,16 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loading = true;
-    this.authService.SignIn(
-      this.loginForm.value.inputEmail,
-      this.loginForm.value.inputPassword
-    );
+    this.authService
+      .SignIn(
+        this.loginForm.value.inputEmail,
+        this.loginForm.value.inputPassword
+      )
+      .then((res) => {
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+      });
   }
 }

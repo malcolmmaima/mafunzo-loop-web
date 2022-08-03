@@ -6,6 +6,7 @@ import {
   AngularFirestoreDocument,
 } from "@angular/fire/compat/firestore/";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +18,8 @@ export class AuthService {
     public afs: AngularFirestore, // Inject Firestore service
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    public ngZone: NgZone // NgZone service to remove outside scope warning
+    public ngZone: NgZone, // NgZone service to remove outside scope warning
+    public toastr: ToastrService
   ) {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
@@ -40,7 +42,11 @@ export class AuthService {
         });
       })
       .catch((error) => {
-        window.alert(error.message);
+        if (error.code === "auth/user-not-found") {
+          this.toastr.error("User not found");
+        } else {
+          this.toastr.error("Unable to login, " + error.message);
+        }
       });
   }
 
@@ -51,10 +57,9 @@ export class AuthService {
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign up and returns promise */
         this.SendVerificationMail();
-        this.SetUserData(result, user);
       })
       .catch((error) => {
-        window.alert(error.message);
+        this.toastr.error(error.message);
       });
   }
 
@@ -70,10 +75,11 @@ export class AuthService {
     return this.afAuth
       .sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
-        window.alert("Password reset email sent, check your inbox.");
+        this.toastr.success("Password reset email sent, check your inbox.");
+        this.router.navigate(["/"]);
       })
       .catch((error) => {
-        window.alert(error);
+        this.toastr.error("Something went wrong, " + error.message);
       });
   }
 
@@ -85,21 +91,30 @@ export class AuthService {
 
   //set full user data we get
   SetUserData(result, user) {
-    const userRef: AngularFirestoreDocument = this.afs.doc(
-      `users/${result.uid}`
-    );
-    const userData: User = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      dateCreated: user.dateCreated,
-      profilePic: user.profilePic,
-      accountType: user.accountType,
-      enabled: user.enabled,
-    };
-    return userRef.set(userData, {
-      merge: true,
-    });
+    //make sure result.user.uid is not undefined
+    if (result.user.uid) {
+      const userRef: AngularFirestoreDocument = this.afs.doc(
+        `users/${result.user.uid}`
+      );
+      const userData: User = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        dateCreated: user.dateCreated,
+        profilePic: user.profilePic,
+        accountType: user.accountType,
+        enabled: result.user.emailVerified,
+      };
+      return userRef
+        .set(userData, {
+          merge: true,
+        })
+        .then(() => {
+          this.toastr.success("User signup successful");
+        });
+    } else {
+      this.toastr.error("Something went wrong");
+    }
   }
 
   // Sign out function
@@ -107,6 +122,7 @@ export class AuthService {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem("user");
       this.router.navigate(["/"]);
+      this.toastr.success("Logged out successfully");
     });
   }
 }
