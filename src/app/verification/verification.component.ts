@@ -18,18 +18,16 @@ export class VerificationComponent implements OnInit {
   userExists = false;
   loading = false;
   constructor(private formBuilder: FormBuilder) {}
-  registerForm!: FormGroup;
+  loginForm!: FormGroup;
   ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
-      countryCode: ["", Validators.required],
-      phoneNumber: ["", [Validators.required, Validators.minLength(9)]],
+    this.loginForm = this.formBuilder.group({
+      inputEmail: ["", Validators.required],
+      inputPassword: ["", [Validators.required]],
     });
   }
 
-  register() {
+  login() {
     this.loading = true;
-    let phoneNumber =
-      this.countries[this.registerForm.value.countryCode - 1].countryCode +
-      Utils.formatPhoneNumber(this.registerForm.value.phoneNumber);
+    console.log("Form user data", this.loginForm.value);
   }
 }

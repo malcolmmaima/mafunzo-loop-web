@@ -191,3 +191,9 @@
     background-color: #1585f5;
     color: #fff;
 }
+.btn-primary.btn-simple:hover, .btn-primary.btn-simple:focus, .btn-primary.btn-simple:active {
+      background-color: transparent;
+      color: #3474b8;
+      border-color: #3474b8;
+      box-shadow: none; 
+    }
