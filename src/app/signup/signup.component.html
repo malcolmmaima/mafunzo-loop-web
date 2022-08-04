@@ -33,6 +33,7 @@
                     placeholder="School Name"
                     required=""
                     autofocus=""
+                    autocomplete="disabled"
                     class="form-control rounded-pill border-0 shadow-sm px-4"
                   /><span
                     class="text-danger"
@@ -51,6 +52,7 @@
                     placeholder="Email address"
                     required=""
                     autofocus=""
+                    autocomplete="disabled"
                     class="form-control rounded-pill border-0 shadow-sm px-4"
                   /><span
                     class="text-danger"
@@ -69,6 +71,7 @@
                     placeholder="School Location (e.g. Nairobi, Kenya)"
                     required=""
                     autofocus=""
+                    autocomplete="disabled"
                     class="form-control rounded-pill border-0 shadow-sm px-4"
                   /><span
                     class="text-danger"
@@ -86,6 +89,7 @@
                     type="password"
                     placeholder="Password"
                     required=""
+                    autocomplete="new-password"
                     class="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
                   /><span
                     class="text-danger"
@@ -104,7 +108,7 @@
                   Sign up
                 </button>
                 <div class="custom-control custom-checkbox mb-3">
-                  <!-- <input
+                  <input
                     id="customCheck1"
                     formControlName="customCheck1"
                     type="checkbox"
@@ -114,13 +118,18 @@
 
                   <label for="customCheck1" class="custom-control-label"
                     >Agree to our
-                    <a href="https://bit.ly/3Qbb1MB">Privacy policy</a>
-                  </label> -->
+                    <a
+                      href="https://bit.ly/3Qbb1MB"
+                      class="font-italic text-muted"
+                      target="_blank"
+                      >Privacy policy</a
+                    >
+                  </label>
                 </div>
                 <div class="text-center d-flex justify-content-between mt-4">
                   <p>
                     Already have an account?
-                    <a href="#" class="font-italic text-muted">
+                    <a href="/" class="font-italic text-muted">
                       <u>Sign in</u></a
                     >
                   </p>

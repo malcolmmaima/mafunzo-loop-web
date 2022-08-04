@@ -27,6 +27,7 @@ export class SignupComponent implements OnInit {
       inputSchoolName: ["", Validators.required],
       inputEmail: ["", Validators.required],
       inputPassword: ["", [Validators.required]],
+      inputLocation: ["", [Validators.required]],
     });
     if (this.authService.isLoggedIn) {
       this.loading = false;
@@ -58,11 +59,15 @@ export class SignupComponent implements OnInit {
         accountType: webDashDefaultAccountType,
         enabled: false,
       };
-      this.authService.SignUp(
-        this.signupForm.value.inputEmail,
-        this.signupForm.value.inputPassword,
-        userData
-      );
+      this.authService
+        .SignUp(
+          this.signupForm.value.inputEmail,
+          this.signupForm.value.inputPassword,
+          userData
+        )
+        .then((res) => {
+          this.loading = false;
+        });
     } else {
       this.loading = false;
       this.toastr.error("You must agree to the privacy policy");
