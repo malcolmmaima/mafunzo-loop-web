@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from "@angular/core";
-import { User } from "./user";
+import { UserModel } from "./UserModel";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import {
   AngularFirestore,
@@ -7,6 +7,7 @@ import {
 } from "@angular/fire/compat/firestore/";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { SchoolModel } from "./SchoolModel";
 
 @Injectable({
   providedIn: "root",
@@ -63,6 +64,7 @@ export class AuthService {
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign up and returns promise */
         this.SendVerificationMail();
+        this.SetUserData(result, user);
       })
       .catch((error) => {
         this.toastr.error(error.message);
@@ -102,7 +104,10 @@ export class AuthService {
       const userRef: AngularFirestoreDocument = this.afs.doc(
         `users/${result.user.uid}`
       );
-      const userData: User = {
+      const systemSchoolsRef: AngularFirestoreDocument = this.afs.doc(
+        `app_settings/schools/KE/${result.user.uid}`
+      );
+      const userData: UserModel = {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
@@ -111,12 +116,22 @@ export class AuthService {
         accountType: user.accountType,
         enabled: result.user.emailVerified,
       };
+
+      const schoolData: SchoolModel = {
+        id: result.user.uid,
+        schoolName: user.firstName,
+        schoolLocation: user.lastName,
+        schoolEmail: user.email,
+      };
       return userRef
         .set(userData, {
           merge: true,
         })
         .then(() => {
           this.toastr.success("User signup successful");
+          systemSchoolsRef.set(schoolData, {
+            merge: true,
+          });
         });
     } else {
       this.toastr.error("Something went wrong");
