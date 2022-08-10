@@ -9,7 +9,7 @@ import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 import { UserComponent } from "../../pages/user/user.component";
 import { TableComponent } from "../../pages/table/table.component";
 import { TypographyComponent } from "../../pages/typography/typography.component";
-import { IconsComponent } from "../../pages/icons/icons.component";
+import { WaitingListComponent } from "../../pages/icons/waitinglist.component";
 import { MapsComponent } from "../../pages/maps/maps.component";
 import { NotificationsComponent } from "../../pages/notifications/notifications.component";
 import { UpgradeComponent } from "../../pages/upgrade/upgrade.component";
@@ -37,7 +37,7 @@ import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
     TableComponent,
     UpgradeComponent,
     TypographyComponent,
-    IconsComponent,
+    WaitingListComponent,
     MapsComponent,
     NotificationsComponent,
   ],
