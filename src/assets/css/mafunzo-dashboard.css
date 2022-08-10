@@ -851,4 +851,8 @@
   background-color: #000;
 }
 
+.zindex {
+  z-index: 99000 !important;
+}
+
 /* End Calendar CSS */
