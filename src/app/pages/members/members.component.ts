@@ -30,6 +30,11 @@ export class MembersListComponent implements OnInit {
     this.crudService.GetWaitListUsers().subscribe((res) => {
       this.loading = false;
 
+      if (userId == null) {
+        this.toastr.error("Something went wrong, please try again");
+        return;
+      }
+
       this.tableData1.dataRows = [];
       for (let i = 0; i < res.length; i++) {
         for (const key in res[i]["schools"]) {

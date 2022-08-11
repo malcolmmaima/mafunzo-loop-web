@@ -39,10 +39,10 @@ export class AuthService {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
+        Utils.saveUserId(result.user.uid);
         this.ngZone.run(() => {
           this.router.navigate(["/dashboard"]);
         });
-        Utils.saveUserId(result.user.uid);
       })
       .catch((error) => {
         if (error.code === "auth/user-not-found") {
