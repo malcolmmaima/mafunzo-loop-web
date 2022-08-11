@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import Utils from "../helpers/utils";
+import Utils from "../helpers/MafunzoUtils";
 import { AuthService } from "../shared/services/auth.service";
-import { UserModel } from "../shared/services/UserModel";
+import { UserModel } from "../shared/services/models/UserModel";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 

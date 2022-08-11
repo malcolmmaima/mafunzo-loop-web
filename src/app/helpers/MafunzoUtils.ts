@@ -1,5 +1,3 @@
-import { HttpHeaders } from "@angular/common/http";
-
 export default class Utils {
   static formatPhoneNumber(phoneNumber) {
     return phoneNumber.replace(/^0/, "");
@@ -8,5 +6,15 @@ export default class Utils {
   //a function that generates the current time in milliseconds
   static getCurrentTime() {
     return new Date().getTime();
+  }
+
+  //save user id
+  static saveUserId(uid: string) {
+    localStorage.setItem("uid", uid);
+  }
+
+  //get user id
+  static getUserId() {
+    return localStorage.getItem("uid");
   }
 }

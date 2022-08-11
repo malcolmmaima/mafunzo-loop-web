@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from "@angular/core";
-import { UserModel } from "./UserModel";
+import { UserModel } from "./models/UserModel";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import {
   AngularFirestore,
@@ -7,7 +7,8 @@ import {
 } from "@angular/fire/compat/firestore/";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { SchoolModel } from "./SchoolModel";
+import { SchoolModel } from "./models/SchoolModel";
+import Utils from "../../helpers/MafunzoUtils";
 
 @Injectable({
   providedIn: "root",
@@ -41,6 +42,7 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigate(["/dashboard"]);
         });
+        Utils.saveUserId(result.user.uid);
       })
       .catch((error) => {
         if (error.code === "auth/user-not-found") {

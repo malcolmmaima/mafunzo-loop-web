@@ -23,6 +23,7 @@ import { VerifyEmailComponent } from "./verify-email/verify-email.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
 
 import { AuthService } from "./shared/services/auth.service";
+import { CrudService } from "./shared/services/crud.service";
 
 @NgModule({
   imports: [
@@ -46,7 +47,7 @@ import { AuthService } from "./shared/services/auth.service";
     VerifyEmailComponent,
     ForgotPasswordComponent,
   ],
-  providers: [AuthService],
+  providers: [AuthService, CrudService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
