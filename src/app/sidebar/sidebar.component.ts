@@ -16,12 +16,11 @@ export const ROUTES: RouteInfo[] = [
     class: "",
   },
   {
-    path: "/notifications",
-    title: "Notifications",
+    path: "/timetable",
+    title: "Time Table",
     icon: "nc-bell-55",
     class: "",
   },
-  { path: "/user", title: "User Profile", icon: "nc-single-02", class: "" },
   { path: "/table", title: "Table List", icon: "nc-tile-56", class: "" },
   {
     path: "/typography",
@@ -30,6 +29,12 @@ export const ROUTES: RouteInfo[] = [
     class: "",
   },
   { path: "/maps", title: "School Buses", icon: "nc-pin-3", class: "" },
+  {
+    path: "/profile",
+    title: "School Profile",
+    icon: "nc-single-02",
+    class: "",
+  },
   {
     path: "/upgrade",
     title: "Upgrade to PRO",
