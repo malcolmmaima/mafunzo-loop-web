@@ -7,9 +7,9 @@ import { AdminLayoutRoutes } from "./admin-layout.routing";
 
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 import { ProfileComponent } from "../../pages/profile/profile.component";
-import { TableComponent } from "../../pages/table/table.component";
-import { TypographyComponent } from "../../pages/typography/typography.component";
-import { WaitingListComponent } from "../../pages/icons/waitinglist.component";
+import { StudentsComponent } from "../../pages/students/students.component";
+import { ParentsComponent } from "../../pages/parents/parents.component";
+import { WaitingListComponent } from "../../pages/waitinglist/waitinglist.component";
 import { MapsComponent } from "../../pages/maps/maps.component";
 import { TimeTableComponent } from "../../pages/timetable/timetable.component";
 import { UpgradeComponent } from "../../pages/upgrade/upgrade.component";
@@ -34,9 +34,9 @@ import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
   declarations: [
     DashboardComponent,
     ProfileComponent,
-    TableComponent,
+    StudentsComponent,
     UpgradeComponent,
-    TypographyComponent,
+    ParentsComponent,
     WaitingListComponent,
     MapsComponent,
     TimeTableComponent,
