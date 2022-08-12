@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
+import { AuthService } from "../../shared/services/auth.service";
 import Utils from "../../helpers/MafunzoUtils";
 import { CrudService } from "../../shared/services/crud.service";
 
@@ -19,7 +20,11 @@ export class MembersListComponent implements OnInit {
   loading = false;
   usersFound = false;
 
-  constructor(private crudService: CrudService, public toastr: ToastrService) {}
+  constructor(
+    private crudService: CrudService,
+    private authService: AuthService,
+    public toastr: ToastrService
+  ) {}
   ngOnInit(): void {
     this.loading = true;
     this.tableData1 = {
@@ -30,9 +35,9 @@ export class MembersListComponent implements OnInit {
     this.crudService.GetWaitListUsers().subscribe((res) => {
       this.loading = false;
 
-      if (userId == null) {
+      if (userId == null || userId == undefined) {
         this.toastr.error("Something went wrong, please try again");
-        return;
+        this.authService.SignOut();
       }
 
       this.tableData1.dataRows = [];
