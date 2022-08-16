@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 import { ProfileComponent } from "../../pages/profile/profile.component";
-import { StudentsComponent } from "../../pages/students/students.component";
+import { AnnouncementsComponent } from "../../pages/announcements/announcements.component";
 import { ParentsComponent } from "../../pages/parents/parents.component";
 import { MembersListComponent } from "../../pages/members/members.component";
 import { MapsComponent } from "../../pages/maps/maps.component";
@@ -12,7 +12,7 @@ import { TeachersComponent } from "../../pages/teachers/teachers.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
-  { path: "students", component: StudentsComponent },
+  { path: "announcements", component: AnnouncementsComponent },
   { path: "parents", component: ParentsComponent },
   { path: "teachers", component: TeachersComponent },
   { path: "members", component: MembersListComponent },

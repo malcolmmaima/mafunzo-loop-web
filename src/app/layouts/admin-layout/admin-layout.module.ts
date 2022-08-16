@@ -7,7 +7,7 @@ import { AdminLayoutRoutes } from "./admin-layout.routing";
 
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 import { ProfileComponent } from "../../pages/profile/profile.component";
-import { StudentsComponent } from "../../pages/students/students.component";
+import { AnnouncementsComponent } from "../../pages/announcements/announcements.component";
 import { ParentsComponent } from "../../pages/parents/parents.component";
 import { MembersListComponent } from "../../pages/members/members.component";
 import { MapsComponent } from "../../pages/maps/maps.component";
@@ -34,7 +34,7 @@ import { adapterFactory } from "angular-calendar/date-adapters/date-fns";
   declarations: [
     DashboardComponent,
     ProfileComponent,
-    StudentsComponent,
+    AnnouncementsComponent,
     UpgradeComponent,
     ParentsComponent,
     MembersListComponent,

@@ -8,9 +8,9 @@ declare interface TableData {
 @Component({
   selector: "table-cmp",
   moduleId: module.id,
-  templateUrl: "students.component.html",
+  templateUrl: "announcements.component.html",
 })
-export class StudentsComponent implements OnInit {
+export class AnnouncementsComponent implements OnInit {
   public tableData1: TableData;
   public tableData2: TableData;
   ngOnInit() {
