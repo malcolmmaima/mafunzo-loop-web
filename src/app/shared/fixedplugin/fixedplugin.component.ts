@@ -42,12 +42,12 @@ export class FixedPluginComponent implements OnInit {
 
     if (this.localsetSidebarColor != undefined) {
       this.sidebarColor = this.localsetSidebarColor;
-      sidebar.setAttribute("data-color", this.sidebarColor);
+      this.changeSidebarColor(this.sidebarColor);
     }
 
     if (this.localsetSidebarActiveColor != undefined) {
       this.sidebarActiveColor = this.localsetSidebarActiveColor;
-      sidebar.setAttribute("data-active-color", this.sidebarActiveColor);
+      this.changeSidebarActiveColor(this.sidebarActiveColor);
     }
   }
 }

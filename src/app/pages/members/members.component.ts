@@ -64,8 +64,10 @@ export class MembersListComponent implements OnInit {
   ngAfterViewInit() {
     const userId = Utils.getUserId();
     if (userId == null || userId == undefined) {
-      this.toastr.error("Something went wrong, please try again");
-      this.authService.SignOut();
+      this.toastr.error(
+        "User id not found, please logout and login again for a smooth experience"
+      );
+      //this.authService.SignOut();
     }
   }
 

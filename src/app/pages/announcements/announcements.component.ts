@@ -22,6 +22,21 @@ export class AnnouncementsComponent implements OnInit {
   announcementsFound = false;
 
   @ViewChild("modalContent", { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild("modalContentView", { static: true })
+  modalContentView: TemplateRef<any>;
+
+  modalData: {
+    title: string;
+    type: string;
+    body: string;
+  };
+
+  announcement = {
+    id: "",
+    title: "",
+    description: "",
+    announcementType: "",
+  };
 
   constructor(
     private crudService: CrudService,
@@ -33,30 +48,67 @@ export class AnnouncementsComponent implements OnInit {
   announcementForm!: FormGroup;
   ngOnInit() {
     this.tableData1 = {
-      headerRow: ["Title", "Body", ""],
+      headerRow: ["", "Title", "To", "Body"],
       dataRows: [],
     };
 
-    this.crudService.GetParentsAnnouncements().subscribe((res) => {
-      this.loading = false;
-      this.announcementsFound = res.length > 0;
-      this.tableData1.dataRows = [];
-      for (let i = 0; i < res.length; i++) {
-        this.tableData1.dataRows.push([
-          res[i]["announcementTitle"],
-          res[i]["announcementBody"],
-          "",
-        ]);
-      }
-    });
+    //initialize table data
+    //this.filterAnnouncements("parents");
+  }
+
+  filterAnnouncements(filterValue: string) {
+    if (filterValue == "parents") {
+      this.crudService.GetParentsAnnouncements().subscribe((res) => {
+        this.loading = false;
+        this.tableData1.dataRows = [];
+        this.announcementsFound = res.length > 0;
+        for (let i = 0; i < res.length; i++) {
+          this.tableData1.dataRows.push([
+            res[i]["id"],
+            res[i]["announcementTitle"],
+            res[i]["announcementType"],
+            res[i]["announcementBody"],
+            "",
+          ]);
+        }
+      });
+    } else if (filterValue == "teachers") {
+      this.crudService.GetTeachersAnnouncements().subscribe((res) => {
+        this.loading = false;
+        this.tableData1.dataRows = [];
+        this.announcementsFound = res.length > 0;
+        for (let i = 0; i < res.length; i++) {
+          this.tableData1.dataRows.push([
+            res[i]["id"],
+            res[i]["announcementTitle"],
+            res[i]["announcementType"],
+            res[i]["announcementBody"],
+            "",
+          ]);
+        }
+      });
+    } else if ((filterValue = "students")) {
+      this.crudService.GetStudentsAnnouncements().subscribe((res) => {
+        this.loading = false;
+        this.tableData1.dataRows = [];
+        this.announcementsFound = res.length > 0;
+        for (let i = 0; i < res.length; i++) {
+          this.tableData1.dataRows.push([
+            res[i]["id"],
+            res[i]["announcementTitle"],
+            res[i]["announcementType"],
+            res[i]["announcementBody"],
+            "",
+          ]);
+        }
+      });
+    }
   }
 
   addAnnouncement() {
     this.announcementForm = this.formBuilder.group({
       title: ["", Validators.required],
       description: ["", Validators.required],
-      date: ["", Validators.required],
-      time: ["", Validators.required],
       announcementType: ["", Validators.required],
     });
     this.modal.open(this.modalContent, {
@@ -67,18 +119,42 @@ export class AnnouncementsComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
+    //get today's date + time in milliseconds
+    const date = new Date();
+    const time = date.getTime();
+
     const data = {
       announcementTitle: this.announcementForm.value.title,
       announcementBody: this.announcementForm.value.description,
       announcementTime: Utils.getDateTimeInMilliseconds(
-        this.announcementForm.value.date,
-        this.announcementForm.value.time
+        date.toString(),
+        time.toString()
       ),
       announcementImage: Utils.defaultAnnouncementImage,
       announcementType: this.announcementForm.value.announcementType,
     };
 
     this.crudService.AddAnnouncement(data).then((res) => {
+      this.loading = false;
+      this.modal.dismissAll();
+    });
+  }
+
+  showAnnouncement(row) {
+    this.announcement.id = row[0];
+    this.announcement.title = row[1];
+    this.announcement.announcementType = row[2];
+    this.announcement.description = row[3];
+    this.modal.open(this.modalContentView, {
+      size: "lg",
+      windowClass: "zindex",
+    });
+  }
+
+  deleteAnnouncement(announcement) {
+    this.loading = true;
+    console.log(announcement["id"]);
+    this.crudService.DeleteAnnouncement(announcement).then((res) => {
       this.loading = false;
       this.modal.dismissAll();
     });

@@ -31,6 +31,24 @@ export class CrudService {
     return announcementsRef.collection("PARENT").valueChanges();
   }
 
+  GetStudentsAnnouncements() {
+    const schoolId = Utils.getUserId();
+    const announcementsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `announcements/${schoolId}`
+    );
+
+    return announcementsRef.collection("STUDENT").valueChanges();
+  }
+
+  GetTeachersAnnouncements() {
+    const schoolId = Utils.getUserId();
+    const announcementsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `announcements/${schoolId}`
+    );
+
+    return announcementsRef.collection("TEACHER").valueChanges();
+  }
+
   // Add new announcement to the database
   AddAnnouncement(announcement): Promise<any> {
     if (announcement != null && announcement[0] != "") {
@@ -46,6 +64,7 @@ export class CrudService {
         id: announcementId,
         announcementTitle: announcement["announcementTitle"],
         announcementBody: announcement["announcementBody"],
+        announcementType: announcement["announcementType"],
         announcementImage: announcement["announcementImage"],
         announcementTime: announcement["announcementTime"],
       };
@@ -57,6 +76,25 @@ export class CrudService {
         .catch((error) => {
           this.toastr.error("Unable to add announcement");
         });
+    }
+  }
+
+  DeleteAnnouncement(announcement): Promise<any> {
+    if (announcement != null && announcement[0] != "") {
+      const schoolId = Utils.getUserId();
+      const announcementRef: AngularFirestoreDocument<any> = this.afs.doc(
+        `announcements/${schoolId}/${announcement["announcementType"]}/${announcement["id"]}`
+      );
+      return announcementRef
+        .delete()
+        .then(() => {
+          this.toastr.success("Announcement deleted successfully");
+        })
+        .catch((error) => {
+          this.toastr.error("Unable to delete announcement");
+        });
+    } else {
+      this.toastr.error("Unable to delete announcement");
     }
   }
 
