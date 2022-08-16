@@ -35,11 +35,6 @@ export class MembersListComponent implements OnInit {
     this.crudService.GetWaitListUsers().subscribe((res) => {
       this.loading = false;
 
-      if (userId == null || userId == undefined) {
-        this.toastr.error("Something went wrong, please try again");
-        this.authService.SignOut();
-      }
-
       this.tableData1.dataRows = [];
       for (let i = 0; i < res.length; i++) {
         for (const key in res[i]["schools"]) {
@@ -64,6 +59,14 @@ export class MembersListComponent implements OnInit {
         this.usersFound = this.tableData1.dataRows.length > 0;
       }
     });
+  }
+
+  ngAfterViewInit() {
+    const userId = Utils.getUserId();
+    if (userId == null || userId == undefined) {
+      this.toastr.error("Something went wrong, please try again");
+      this.authService.SignOut();
+    }
   }
 
   approveUser(user) {

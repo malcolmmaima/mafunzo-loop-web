@@ -20,6 +20,46 @@ export class CrudService {
     return this.afs.collection("users").valueChanges();
   }
 
+  // Get all announcements corresponding to the school id
+  GetParentsAnnouncements() {
+    const schoolId = Utils.getUserId();
+    console.log("School ID: " + schoolId);
+    const announcementsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `announcements/${schoolId}`
+    );
+
+    return announcementsRef.collection("PARENT").valueChanges();
+  }
+
+  // Add new announcement to the database
+  AddAnnouncement(announcement): Promise<any> {
+    if (announcement != null && announcement[0] != "") {
+      const schoolId = Utils.getUserId();
+      const announcementId = this.afs.createId();
+      const announcementRef: AngularFirestoreDocument<any> = this.afs.doc(
+        `announcements/${schoolId}/${announcement["announcementType"]}/${announcementId}`
+      );
+
+      //append new firestore document id to the announcement object then add to the database
+
+      const announcementNew = {
+        id: announcementId,
+        announcementTitle: announcement["announcementTitle"],
+        announcementBody: announcement["announcementBody"],
+        announcementImage: announcement["announcementImage"],
+        announcementTime: announcement["announcementTime"],
+      };
+      return announcementRef
+        .set(announcementNew, { merge: true })
+        .then(() => {
+          this.toastr.success("Announcement added successfully");
+        })
+        .catch((error) => {
+          this.toastr.error("Unable to add announcement");
+        });
+    }
+  }
+
   ApproveUser(user) {
     if (user != null && user[0] != "") {
       const schoolId = Utils.getUserId();

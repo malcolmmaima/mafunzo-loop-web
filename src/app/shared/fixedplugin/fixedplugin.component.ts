@@ -49,7 +49,5 @@ export class FixedPluginComponent implements OnInit {
       this.sidebarActiveColor = this.localsetSidebarActiveColor;
       sidebar.setAttribute("data-active-color", this.sidebarActiveColor);
     }
-
-    console.log("Sidebar active color: " + this.sidebarActiveColor);
   }
 }

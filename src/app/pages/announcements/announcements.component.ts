@@ -1,4 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import Utils from "../../helpers/MafunzoUtils";
+import { CrudService } from "../../shared/services/crud.service";
 
 declare interface TableData {
   headerRow: string[];
@@ -13,28 +18,69 @@ declare interface TableData {
 export class AnnouncementsComponent implements OnInit {
   public tableData1: TableData;
   public tableData2: TableData;
+  loading = false;
+  announcementsFound = false;
+
+  @ViewChild("modalContent", { static: true }) modalContent: TemplateRef<any>;
+
+  constructor(
+    private crudService: CrudService,
+    public toastr: ToastrService,
+    private modal: NgbModal,
+    private formBuilder: FormBuilder
+  ) {}
+
+  announcementForm!: FormGroup;
   ngOnInit() {
     this.tableData1 = {
-      headerRow: ["ID", "Name", "Country", "City", "Salary"],
-      dataRows: [
-        ["1", "Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
-        ["2", "Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
-        ["3", "Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
-        ["4", "Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
-        ["5", "Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
-        ["6", "Mason Porter", "Chile", "Gloucester", "$78,615"],
-      ],
+      headerRow: ["Title", "Body", ""],
+      dataRows: [],
     };
-    this.tableData2 = {
-      headerRow: ["ID", "Name", "Salary", "Country", "City"],
-      dataRows: [
-        ["1", "Dakota Rice", "$36,738", "Niger", "Oud-Turnhout"],
-        ["2", "Minerva Hooper", "$23,789", "Curaçao", "Sinaai-Waas"],
-        ["3", "Sage Rodriguez", "$56,142", "Netherlands", "Baileux"],
-        ["4", "Philip Chaney", "$38,735", "Korea, South", "Overland Park"],
-        ["5", "Doris Greene", "$63,542", "Malawi", "Feldkirchen in Kärnten"],
-        ["6", "Mason Porter", "$78,615", "Chile", "Gloucester"],
-      ],
+
+    this.crudService.GetParentsAnnouncements().subscribe((res) => {
+      this.loading = false;
+      this.announcementsFound = res.length > 0;
+      this.tableData1.dataRows = [];
+      for (let i = 0; i < res.length; i++) {
+        this.tableData1.dataRows.push([
+          res[i]["announcementTitle"],
+          res[i]["announcementBody"],
+          "",
+        ]);
+      }
+    });
+  }
+
+  addAnnouncement() {
+    this.announcementForm = this.formBuilder.group({
+      title: ["", Validators.required],
+      description: ["", Validators.required],
+      date: ["", Validators.required],
+      time: ["", Validators.required],
+      announcementType: ["", Validators.required],
+    });
+    this.modal.open(this.modalContent, {
+      size: "lg",
+      windowClass: "zindex",
+    });
+  }
+
+  onSubmit() {
+    this.loading = true;
+    const data = {
+      announcementTitle: this.announcementForm.value.title,
+      announcementBody: this.announcementForm.value.description,
+      announcementTime: Utils.getDateTimeInMilliseconds(
+        this.announcementForm.value.date,
+        this.announcementForm.value.time
+      ),
+      announcementImage: Utils.defaultAnnouncementImage,
+      announcementType: this.announcementForm.value.announcementType,
     };
+
+    this.crudService.AddAnnouncement(data).then((res) => {
+      this.loading = false;
+      this.modal.dismissAll();
+    });
   }
 }
