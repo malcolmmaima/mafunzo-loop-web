@@ -48,21 +48,24 @@ export class AnnouncementsComponent implements OnInit {
   announcementForm!: FormGroup;
   ngOnInit() {
     this.tableData1 = {
-      headerRow: ["", "Title", "To", "Body"],
+      headerRow: [],
       dataRows: [],
     };
 
     //initialize table data
-    //this.filterAnnouncements("parents");
+    this.filterAnnouncements("parents");
   }
 
   filterAnnouncements(filterValue: string) {
+    console.log(filterValue);
     if (filterValue == "parents") {
       this.crudService.GetParentsAnnouncements().subscribe((res) => {
         this.loading = false;
         this.tableData1.dataRows = [];
+        this.tableData1.headerRow = [];
         this.announcementsFound = res.length > 0;
         for (let i = 0; i < res.length; i++) {
+          this.tableData1.headerRow.push("", "Title", "To", "Body");
           this.tableData1.dataRows.push([
             res[i]["id"],
             res[i]["announcementTitle"],
@@ -76,8 +79,10 @@ export class AnnouncementsComponent implements OnInit {
       this.crudService.GetTeachersAnnouncements().subscribe((res) => {
         this.loading = false;
         this.tableData1.dataRows = [];
+        this.tableData1.headerRow = [];
         this.announcementsFound = res.length > 0;
         for (let i = 0; i < res.length; i++) {
+          this.tableData1.headerRow.push("", "Title", "To", "Body");
           this.tableData1.dataRows.push([
             res[i]["id"],
             res[i]["announcementTitle"],
@@ -87,12 +92,31 @@ export class AnnouncementsComponent implements OnInit {
           ]);
         }
       });
-    } else if ((filterValue = "students")) {
+    } else if (filterValue == "students") {
       this.crudService.GetStudentsAnnouncements().subscribe((res) => {
         this.loading = false;
         this.tableData1.dataRows = [];
+        this.tableData1.headerRow = [];
         this.announcementsFound = res.length > 0;
         for (let i = 0; i < res.length; i++) {
+          this.tableData1.headerRow.push("", "Title", "To", "Body");
+          this.tableData1.dataRows.push([
+            res[i]["id"],
+            res[i]["announcementTitle"],
+            res[i]["announcementType"],
+            res[i]["announcementBody"],
+            "",
+          ]);
+        }
+      });
+    } else if (filterValue == "busdrivers") {
+      this.crudService.GetBusDriversAnnouncements().subscribe((res) => {
+        this.loading = false;
+        this.tableData1.dataRows = [];
+        this.tableData1.headerRow = [];
+        this.announcementsFound = res.length > 0;
+        for (let i = 0; i < res.length; i++) {
+          this.tableData1.headerRow.push("", "Title", "To", "Body");
           this.tableData1.dataRows.push([
             res[i]["id"],
             res[i]["announcementTitle"],

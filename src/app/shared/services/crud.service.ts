@@ -49,6 +49,15 @@ export class CrudService {
     return announcementsRef.collection("TEACHER").valueChanges();
   }
 
+  GetBusDriversAnnouncements() {
+    const schoolId = Utils.getUserId();
+    const announcementsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `announcements/${schoolId}`
+    );
+
+    return announcementsRef.collection("BUS_DRIVER").valueChanges();
+  }
+
   // Add new announcement to the database
   AddAnnouncement(announcement): Promise<any> {
     if (announcement != null && announcement[0] != "") {
