@@ -32,6 +32,7 @@ export class MembersListComponent implements OnInit {
       dataRows: [],
     };
     const userId = Utils.getUserId();
+    console.log(userId);
     this.crudService.GetWaitListUsers().subscribe((res) => {
       this.loading = false;
 
@@ -63,6 +64,7 @@ export class MembersListComponent implements OnInit {
 
   ngAfterViewInit() {
     const userId = Utils.getUserId();
+
     if (userId == null || userId == undefined) {
       this.toastr.error(
         "User id not found, please logout and login again for a smooth experience"

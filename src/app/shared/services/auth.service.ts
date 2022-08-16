@@ -39,15 +39,18 @@ export class AuthService {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        Utils.saveUserId(result.user.uid);
-        console.log(result.user.uid);
-        if (result.user.uid === "") {
-          this.toastr.error("Something went wrong");
-          this.afAuth.signOut();
+        if (result.user.uid !== null) {
+          Utils.saveUserId(result.user.uid);
         } else {
-          this.ngZone.run(() => {
-            this.router.navigate(["/dashboard"]);
-          });
+          console.log(result.user.uid);
+          if (result.user.uid === "") {
+            this.toastr.error("Something went wrong");
+            this.afAuth.signOut();
+          } else {
+            this.ngZone.run(() => {
+              this.router.navigate(["/dashboard"]);
+            });
+          }
         }
       })
       .catch((error) => {
