@@ -26,6 +26,8 @@ import {
   CalendarView,
 } from "angular-calendar";
 import { EventColor } from "calendar-utils";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { CrudService } from "../../shared/services/crud.service";
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -67,6 +69,7 @@ export class DashboardComponent implements OnInit {
   totalSchoolUsers: number = 0;
 
   @ViewChild("modalContent", { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild("modalNewEvent", { static: true }) modalNewEvent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
 
@@ -142,7 +145,13 @@ export class DashboardComponent implements OnInit {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal) {}
+  constructor(
+    private modal: NgbModal,
+    private formBuilder: FormBuilder,
+    private crudService: CrudService
+  ) {}
+
+  newEventForm!: FormGroup;
 
   ngOnInit() {}
 
@@ -187,20 +196,31 @@ export class DashboardComponent implements OnInit {
   }
 
   addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: "New event",
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
-      },
-    ];
+    this.newEventForm = this.formBuilder.group({
+      title: ["", Validators.required],
+      description: ["", Validators.required],
+      accountType: ["", Validators.required],
+      start: ["", Validators.required],
+      end: ["", Validators.required],
+    });
+    this.modal.open(this.modalNewEvent, {
+      size: "lg",
+      windowClass: "zindex",
+    });
+    // this.events = [
+    //   ...this.events,
+    //   {
+    //     title: "New event",
+    //     start: startOfDay(new Date()),
+    //     end: endOfDay(new Date()),
+    //     color: colors.red,
+    //     draggable: true,
+    //     resizable: {
+    //       beforeStart: true,
+    //       afterEnd: true,
+    //     },
+    //   },
+    // ];
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
@@ -213,5 +233,13 @@ export class DashboardComponent implements OnInit {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  onSubmit() {
+    console.log(this.newEventForm.value);
+    this.crudService.AddNewEvent(this.newEventForm.value).then((data) => {
+      this.events.push(data);
+      this.modal.dismissAll();
+    });
   }
 }

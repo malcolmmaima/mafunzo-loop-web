@@ -166,4 +166,32 @@ export class CrudService {
       this.toastr.error("Unable to block " + user[0]);
     }
   }
+
+  AddNewEvent(event): Promise<any> {
+    if (event != null && event[0] != "") {
+      const schoolId = Utils.getUserId();
+      const eventId = this.afs.createId();
+      const eventRef: AngularFirestoreDocument<any> = this.afs.doc(
+        `calendar_events/${schoolId}/${event["accountType"]}/${eventId}`
+      );
+
+      //append new firestore document id to the event object then add to the database
+      const eventNew = {
+        id: eventId,
+        title: event["title"],
+        description: event["description"],
+        start: Utils.getDateTimeInMilliseconds2(event["start"]),
+        end: Utils.getDateTimeInMilliseconds2(event["end"]),
+      };
+      return eventRef
+        .set(eventNew, { merge: true })
+        .then(() => {
+          this.toastr.success("Event added successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.toastr.error("Unable to add event");
+        });
+    }
+  }
 }

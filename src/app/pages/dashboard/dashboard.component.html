@@ -197,7 +197,7 @@
           </mwl-calendar-day-view>
         </div>
 
-        <!-- <br /><br /><br />
+        <br /><br /><br />
 
         <h3>
           Edit events
@@ -291,7 +291,7 @@
               </tr>
             </tbody>
           </table>
-        </div> -->
+        </div>
         <!-- End Calendar component -->
       </div>
       <div class="card-footer">
@@ -322,6 +322,103 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="close()">
       OK
+    </button>
+  </div>
+</ng-template>
+
+<!-- Add new Event form modal -->
+<ng-template #modalNewEvent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Add new event</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="newEventForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          formControlName="title"
+          placeholder="Enter title"
+        />
+      </div>
+      <!-- description -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          id="description"
+          formControlName="description"
+          placeholder="Enter description"
+        ></textarea>
+      </div>
+
+      <!-- Account type namely: PARENT, STUDENT, TEACHER, BUS_DRIVER -->
+      <div class="form-group">
+        <label for="accountType">Event Target</label>
+        <select
+          class="form-control"
+          id="accountType"
+          formControlName="accountType"
+        >
+          <option value="PARENT">PARENT</option>
+          <option value="STUDENT">STUDENT</option>
+          <option value="TEACHER">TEACHER</option>
+          <option value="BUS_DRIVER">BUS_DRIVER</option>
+        </select>
+      </div>
+
+      <!-- Start date calendar select -->
+      <div class="form-group">
+        <label for="start">Start date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="start"
+          formControlName="start"
+          placeholder="Enter start date"
+          mwlFlatpickr
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          placeholder="Not set"
+        />
+      </div>
+
+      <!-- End date calendar select -->
+      <div class="form-group">
+        <label for="end">End date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="end"
+          formControlName="end"
+          placeholder="Enter end date"
+          mwlFlatpickr
+          min="{{ newEventForm.get('start').value }}"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          placeholder="Not set"
+        />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="onSubmit()"
+      [disabled]="!newEventForm.valid"
+    >
+      Add
     </button>
   </div>
 </ng-template>

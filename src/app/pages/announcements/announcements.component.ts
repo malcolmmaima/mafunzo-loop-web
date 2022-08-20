@@ -17,7 +17,6 @@ declare interface TableData {
 })
 export class AnnouncementsComponent implements OnInit {
   public tableData1: TableData;
-  public tableData2: TableData;
   loading = false;
   announcementsFound = false;
 

@@ -25,4 +25,9 @@ export default class Utils {
     const dateTime = new Date(date + " " + time);
     return dateTime.getTime();
   }
+
+  static getDateTimeInMilliseconds2(date: string) {
+    const dateTime = new Date(date);
+    return dateTime.getTime();
+  }
 }
