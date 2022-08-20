@@ -34,8 +34,6 @@ export class FixedPluginComponent implements OnInit {
     }
   }
   ngOnInit() {
-    var sidebar = <HTMLElement>document.querySelector(".sidebar");
-
     this.localsetSidebarColor = localStorage.getItem("sidebarColor");
     this.localsetSidebarActiveColor =
       localStorage.getItem("sidebarActiveColor");

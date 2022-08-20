@@ -377,7 +377,7 @@
           formControlName="end"
           placeholder="Enter end date"
           mwlFlatpickr
-          min="{{ newEventForm.get('start').value }}"
+          [min]="newEventForm.get('start').value"
           [enableTime]="true"
           dateFormat="Y-m-dTH:i"
           altFormat="F j, Y H:i"

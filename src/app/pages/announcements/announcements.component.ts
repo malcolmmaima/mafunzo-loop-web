@@ -56,7 +56,6 @@ export class AnnouncementsComponent implements OnInit {
   }
 
   filterAnnouncements(filterValue: string) {
-    console.log(filterValue);
     if (filterValue == "parents") {
       this.crudService.GetParentsAnnouncements().subscribe((res) => {
         this.loading = false;
@@ -176,7 +175,6 @@ export class AnnouncementsComponent implements OnInit {
 
   deleteAnnouncement(announcement) {
     this.loading = true;
-    console.log(announcement["id"]);
     this.crudService.DeleteAnnouncement(announcement).then((res) => {
       this.loading = false;
       this.modal.dismissAll();

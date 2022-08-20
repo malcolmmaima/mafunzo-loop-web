@@ -23,7 +23,7 @@ export class CrudService {
   // Get all announcements corresponding to the school id
   GetParentsAnnouncements() {
     const schoolId = Utils.getUserId();
-    console.log("School ID: " + schoolId);
+    console.log(schoolId);
     const announcementsRef: AngularFirestoreDocument<any> = this.afs.doc(
       `announcements/${schoolId}`
     );

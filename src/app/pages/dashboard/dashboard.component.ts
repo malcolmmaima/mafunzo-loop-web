@@ -125,7 +125,6 @@ export class DashboardComponent implements OnInit {
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    console.log(date, events);
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -338,7 +337,6 @@ export class DashboardComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.newEventForm.value);
     this.crudService.AddNewEvent(this.newEventForm.value).then((data) => {
       this.events.push(data);
       this.modal.dismissAll();
