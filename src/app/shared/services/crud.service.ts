@@ -195,12 +195,57 @@ export class CrudService {
     }
   }
 
-  FetchCalendarEvents() {
+  FetchParentsCalendarEvents() {
     const schoolId = Utils.getUserId();
     const calendarEventsRef: AngularFirestoreDocument<any> = this.afs.doc(
       `calendar_events/${schoolId}`
     );
 
     return calendarEventsRef.collection("PARENT").valueChanges();
+  }
+  FetchTeachersCalendarEvents() {
+    const schoolId = Utils.getUserId();
+    const calendarEventsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `calendar_events/${schoolId}`
+    );
+
+    return calendarEventsRef.collection("TEACHER").valueChanges();
+  }
+
+  fetchStudentsCalendarEvents() {
+    const schoolId = Utils.getUserId();
+    const calendarEventsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `calendar_events/${schoolId}`
+    );
+
+    return calendarEventsRef.collection("STUDENT").valueChanges();
+  }
+
+  fetchBusDriversCalendarEvents() {
+    const schoolId = Utils.getUserId();
+    const calendarEventsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `calendar_events/${schoolId}`
+    );
+
+    return calendarEventsRef.collection("BUS_DRIVER").valueChanges();
+  }
+
+  deleteEvent(targetType: string, documentId: string): Promise<any> {
+    const schoolId = Utils.getUserId();
+    var targetT = "";
+    if (targetType == "parents") {
+      targetT = "PARENT";
+    } else if (targetType == "teachers") {
+      targetT = "TEACHER";
+    } else if (targetType == "students") {
+      targetT = "STUDENT";
+    } else if (targetType == "busdrivers") {
+      targetT = "BUS_DRIVER";
+    }
+
+    const calendarEventsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `calendar_events/${schoolId}/${targetT}/${documentId}`
+    );
+    return calendarEventsRef.delete();
   }
 }

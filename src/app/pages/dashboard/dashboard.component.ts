@@ -29,6 +29,7 @@ import { EventColor } from "calendar-utils";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CrudService } from "../../shared/services/crud.service";
 import Utils from "../../helpers/MafunzoUtils";
+import { ToastrService } from "ngx-toastr";
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -85,25 +86,25 @@ export class DashboardComponent implements OnInit {
   };
 
   actions: CalendarEventAction[] = [
-    {
-      label: '<i class="nc-icon nc-ruler-pencil"></i>',
-      a11yLabel: "Edit",
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent("Edited", event);
-      },
-    },
-    {
-      label: '<i class="nc-icon nc-simple-remove text-danger"></i>',
-      a11yLabel: "Delete",
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent("Deleted", event);
-      },
-    },
+    // {
+    //   label: '<i class="nc-icon nc-ruler-pencil"></i>',
+    //   a11yLabel: "Edit",
+    //   onClick: ({ event }: { event: CalendarEvent }): void => {
+    //     this.handleEvent("Edited", event);
+    //   },
+    // },
+    // {
+    //   label: '<i class="nc-icon nc-simple-remove text-danger"></i>',
+    //   a11yLabel: "Delete",
+    //   onClick: ({ event }: { event: CalendarEvent }): void => {
+    //     this.events = this.events.filter((iEvent) => iEvent !== event);
+    //     this.handleEvent("Deleted", event);
+    //   },
+    // },
   ];
 
   refresh = new Subject<void>();
-
+  filterVal = "";
   events: CalendarEvent[] = [];
 
   activeDayIsOpen: boolean = false;
@@ -111,13 +112,16 @@ export class DashboardComponent implements OnInit {
   constructor(
     private modal: NgbModal,
     private formBuilder: FormBuilder,
-    private crudService: CrudService
+    private crudService: CrudService,
+    private toastr: ToastrService
   ) {}
 
   newEventForm!: FormGroup;
 
   ngOnInit() {
-    this.fetchCalendarEvents();
+    //init calendar with parents calendar events
+    this.filterVal = "parents";
+    this.fetchParentsCalendarEvents();
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -155,7 +159,6 @@ export class DashboardComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    console.log(this.modalData);
     this.modal.open(this.modalViewCalendarEvent, {
       size: "lg",
       windowClass: "zindex",
@@ -176,16 +179,18 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  fetchCalendarEvents() {
-    this.crudService.FetchCalendarEvents().subscribe((data) => {
+  fetchParentsCalendarEvents() {
+    this.crudService.FetchParentsCalendarEvents().subscribe((data) => {
       this.events = data.map((e) => {
         return {
+          id: e.id,
           title: e.title,
           start: Utils.getDateFromMilliseconds(e.start),
           end: Utils.getDateFromMilliseconds(e.end),
           description: e.description,
-          color: colors.red,
-          draggable: true,
+          color: colors.yellow,
+          draggable: false,
+          actions: this.actions,
           resizable: {
             beforeStart: true,
             afterEnd: true,
@@ -199,7 +204,7 @@ export class DashboardComponent implements OnInit {
         today.setHours(0, 0, 0, 0);
 
         this.refresh.next();
-        //this.dayClicked({ date: today, events: [] });
+        this.dayClicked({ date: today, events: [] });
       }, 2000);
     }),
       (error) => {
@@ -207,8 +212,120 @@ export class DashboardComponent implements OnInit {
       };
   }
 
+  FetchTeachersCalendarEvents() {
+    this.crudService.FetchTeachersCalendarEvents().subscribe((data) => {
+      this.events = data.map((e) => {
+        return {
+          id: e.id,
+          title: e.title,
+          start: Utils.getDateFromMilliseconds(e.start),
+          end: Utils.getDateFromMilliseconds(e.end),
+          description: e.description,
+          color: colors.yellow,
+          draggable: false,
+          actions: this.actions,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true,
+          },
+        };
+      });
+      //date for 2 seconds after the events are fetched
+      setTimeout(() => {
+        //new date with time set to 00:00:00
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        this.refresh.next();
+        this.dayClicked({ date: today, events: [] });
+      }),
+        2000;
+    }),
+      (error) => {
+        console.log(error);
+        this.toastr.error("Error fetching events");
+      };
+  }
+
+  fetchStudentsCalendarEvents() {
+    this.crudService.fetchStudentsCalendarEvents().subscribe((data) => {
+      this.events = data.map((e) => {
+        return {
+          id: e.id,
+          title: e.title,
+          start: Utils.getDateFromMilliseconds(e.start),
+          end: Utils.getDateFromMilliseconds(e.end),
+          description: e.description,
+          color: colors.yellow,
+          draggable: false,
+          actions: this.actions,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true,
+          },
+        };
+      });
+      //date for 2 seconds after the events are fetched
+      setTimeout(() => {
+        //new date with time set to 00:00:00
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        this.refresh.next();
+        this.dayClicked({ date: today, events: [] });
+      }),
+        2000;
+    }),
+      (error) => {
+        console.log(error);
+        this.toastr.error("Error fetching events");
+      };
+  }
+
+  fetchBusDriversCalendarEvents() {
+    this.crudService.fetchBusDriversCalendarEvents().subscribe((data) => {
+      this.events = data.map((e) => {
+        return {
+          id: e.id,
+          title: e.title,
+          start: Utils.getDateFromMilliseconds(e.start),
+          end: Utils.getDateFromMilliseconds(e.end),
+          description: e.description,
+          color: colors.yellow,
+          draggable: false,
+          actions: this.actions,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true,
+          },
+        };
+      });
+      //date for 2 seconds after the events are fetched
+      setTimeout(() => {
+        //new date with time set to 00:00:00
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        this.refresh.next();
+        this.dayClicked({ date: today, events: [] });
+      }),
+        2000;
+    }),
+      (error) => {
+        console.log(error);
+        this.toastr.error("Error fetching events");
+      };
+  }
+
   deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
+    this.crudService
+      .deleteEvent(this.filterVal, eventToDelete.id.toString())
+      .then(() => {
+        this.toastr.success("Event deleted");
+        this.events = this.events.filter((event) => event !== eventToDelete);
+        this.modal.dismissAll();
+      }),
+      (error) => {
+        console.log(error);
+        this.toastr.error("Error deleting event");
+      };
   }
 
   setView(view: CalendarView) {
@@ -217,6 +334,7 @@ export class DashboardComponent implements OnInit {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+    this.refresh.next();
   }
 
   onSubmit() {
@@ -225,5 +343,18 @@ export class DashboardComponent implements OnInit {
       this.events.push(data);
       this.modal.dismissAll();
     });
+  }
+
+  filterCalendar(filterValue: string) {
+    this.filterVal = filterValue;
+    if (filterValue == "parents") {
+      this.fetchParentsCalendarEvents();
+    } else if (filterValue == "teachers") {
+      this.FetchTeachersCalendarEvents();
+    } else if (filterValue == "students") {
+      this.fetchStudentsCalendarEvents();
+    } else if (filterValue == "busdrivers") {
+      this.fetchBusDriversCalendarEvents();
+    }
   }
 }

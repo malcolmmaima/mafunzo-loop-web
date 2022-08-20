@@ -100,8 +100,22 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
+        <div class="col-md-2 float-right">
+          <div class="form-group">
+            <label for="filter">Filter</label>
+            <select
+              class="form-control"
+              id="filter"
+              (change)="filterCalendar($event.target.value)"
+            >
+              <option value="parents">Parents</option>
+              <option value="teachers">Teachers</option>
+              <option value="students">Students</option>
+              <option value="busdrivers">Bus Drivers</option>
+            </select>
+          </div>
+        </div>
         <h5 class="card-title">Calendar of Events</h5>
-        <!-- <p class="card-category">upcoming events</p> -->
       </div>
       <div class="card-body">
         <!-- Calendar component -->
@@ -161,6 +175,13 @@
               >
                 Day
               </div>
+              <div
+                class="btn btn-success"
+                (click)="addEvent()"
+                [class.active]="view === CalendarView.Day"
+              >
+                Add New
+              </div>
             </div>
           </div>
         </div>
@@ -199,107 +220,11 @@
 
         <br /><br /><br />
 
-        <button class="btn btn-primary float-right" (click)="addEvent()">
-          Add new
-        </button>
-        <div class="clearfix"></div>
-
-        <div class="table-responsive">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <!-- <th>Primary color</th>
-                <th>Secondary + text color</th> -->
-                <th>Description</th>
-                <th>Starts at</th>
-                <th>Ends at</th>
-                <th>Remove</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr *ngFor="let event of events">
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="event.title"
-                    (keyup)="refresh.next()"
-                  />
-                </td>
-                <!-- <td>
-                  <input
-                    type="color"
-                    [(ngModel)]="event.color.primary"
-                    (change)="refresh.next()"
-                  />
-                </td> -->
-                <!-- <td>
-                  <input
-                    type="color"
-                    [(ngModel)]="event.color.secondary"
-                    (change)="refresh.next()"
-                  />
-                  <input
-                    type="color"
-                    [ngModel]="event.color.secondaryText ?? '#1e90ff'"
-                    (ngModelChange)="event.color.secondaryText = $event"
-                    (change)="refresh.next()"
-                  />
-                </td> -->
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="event.description"
-                    (keyup)="refresh.next()"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="form-control"
-                    type="datetime"
-                    mwlFlatpickr
-                    [(ngModel)]="event.start"
-                    (ngModelChange)="refresh.next()"
-                    [altInput]="true"
-                    [convertModelValue]="true"
-                    [enableTime]="true"
-                    dateFormat="Y-m-dTH:i"
-                    altFormat="F j, Y H:i"
-                    placeholder="Not set"
-                  />
-                </td>
-                <td>
-                  <input
-                    class="form-control"
-                    type="datetime"
-                    mwlFlatpickr
-                    [(ngModel)]="event.end"
-                    (ngModelChange)="refresh.next()"
-                    [altInput]="true"
-                    [convertModelValue]="true"
-                    [enableTime]="true"
-                    dateFormat="Y-m-dTH:i"
-                    altFormat="F j, Y H:i"
-                    placeholder="Not set"
-                  />
-                </td>
-                <td>
-                  <button class="btn btn-danger" (click)="deleteEvent(event)">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
         <!-- End Calendar component -->
       </div>
       <div class="card-footer">
-        <hr />
-        <div class="stats"><i class="fa fa-refresh"></i> Update Now</div>
+        <!-- <hr />
+        <div class="stats" ><i class="fa fa-refresh"></i> Update Now</div> -->
       </div>
     </div>
   </div>
@@ -362,6 +287,17 @@
     </form>
   </div>
   <div class="modal-footer">
+    <!-- delete button -->
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="deleteEvent(modalData.event)"
+      [disabled]="!modalData.event.id"
+    >
+      Delete
+    </button>
+
+    <!-- ok button -->
     <button type="button" class="btn btn-outline-secondary" (click)="close()">
       OK
     </button>
