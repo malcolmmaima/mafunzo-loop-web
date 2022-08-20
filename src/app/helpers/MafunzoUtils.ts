@@ -30,4 +30,9 @@ export default class Utils {
     const dateTime = new Date(date);
     return dateTime.getTime();
   }
+
+  //takes time in milliseconds and returns it in Date format
+  static getDateFromMilliseconds(milliseconds: number) {
+    return new Date(milliseconds);
+  }
 }

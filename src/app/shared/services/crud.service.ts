@@ -194,4 +194,13 @@ export class CrudService {
         });
     }
   }
+
+  FetchCalendarEvents() {
+    const schoolId = Utils.getUserId();
+    const calendarEventsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `calendar_events/${schoolId}`
+    );
+
+    return calendarEventsRef.collection("PARENT").valueChanges();
+  }
 }

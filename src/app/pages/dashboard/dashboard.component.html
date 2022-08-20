@@ -199,24 +199,19 @@
 
         <br /><br /><br />
 
-        <h3>
-          Edit events
-          <button
-            class="btn btn-primary float-right btn-sm"
-            (click)="addEvent()"
-          >
-            Add new
-          </button>
-          <div class="clearfix"></div>
-        </h3>
+        <button class="btn btn-primary float-right" (click)="addEvent()">
+          Add new
+        </button>
+        <div class="clearfix"></div>
 
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
               <tr>
                 <th>Title</th>
-                <th>Primary color</th>
-                <th>Secondary + text color</th>
+                <!-- <th>Primary color</th>
+                <th>Secondary + text color</th> -->
+                <th>Description</th>
                 <th>Starts at</th>
                 <th>Ends at</th>
                 <th>Remove</th>
@@ -233,14 +228,14 @@
                     (keyup)="refresh.next()"
                   />
                 </td>
-                <td>
+                <!-- <td>
                   <input
                     type="color"
                     [(ngModel)]="event.color.primary"
                     (change)="refresh.next()"
                   />
-                </td>
-                <td>
+                </td> -->
+                <!-- <td>
                   <input
                     type="color"
                     [(ngModel)]="event.color.secondary"
@@ -252,11 +247,19 @@
                     (ngModelChange)="event.color.secondaryText = $event"
                     (change)="refresh.next()"
                   />
+                </td> -->
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="event.description"
+                    (keyup)="refresh.next()"
+                  />
                 </td>
                 <td>
                   <input
                     class="form-control"
-                    type="text"
+                    type="datetime"
                     mwlFlatpickr
                     [(ngModel)]="event.start"
                     (ngModelChange)="refresh.next()"
@@ -271,7 +274,7 @@
                 <td>
                   <input
                     class="form-control"
-                    type="text"
+                    type="datetime"
                     mwlFlatpickr
                     [(ngModel)]="event.end"
                     (ngModelChange)="refresh.next()"
@@ -302,22 +305,61 @@
   </div>
 </div>
 
-<ng-template #modalContent let-close="close">
+<ng-template #modalViewCalendarEvent let-close="close">
   <div class="modal-header">
-    <h5 class="modal-title">Event action occurred</h5>
+    <h5 class="modal-title">Calendar event details</h5>
     <button type="button" class="close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <div>
-      Action:
-      <pre>{{ modalData?.action }}</pre>
-    </div>
-    <div>
-      Event:
-      <pre>{{ modalData?.event | json }}</pre>
-    </div>
+    <form>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          [value]="modalData.event.title"
+          [disabled]="true"
+        />
+      </div>
+      <!-- Description -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          id="description"
+          rows="3"
+          [value]="modalData.event.description"
+          [disabled]="true"
+        ></textarea>
+      </div>
+
+      <!-- starts at -->
+      <div class="form-group">
+        <label for="startsAt">Starts at</label>
+        <input
+          type="datetime"
+          class="form-control"
+          id="startsAt"
+          [value]="modalData.event.start"
+          [disabled]="true"
+        />
+      </div>
+
+      <!-- ends at -->
+      <div class="form-group">
+        <label for="endsAt">Ends at</label>
+        <input
+          type="datetime"
+          class="form-control"
+          id="endsAt"
+          [value]="modalData.event.end"
+          [disabled]="true"
+        />
+      </div>
+    </form>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="close()">

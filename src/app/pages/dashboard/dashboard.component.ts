@@ -28,6 +28,7 @@ import {
 import { EventColor } from "calendar-utils";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CrudService } from "../../shared/services/crud.service";
+import Utils from "../../helpers/MafunzoUtils";
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -68,7 +69,8 @@ export class DashboardComponent implements OnInit {
   totalTeachers: number = 0;
   totalSchoolUsers: number = 0;
 
-  @ViewChild("modalContent", { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild("modalViewCalendarEvent", { static: true })
+  modalViewCalendarEvent: TemplateRef<any>;
   @ViewChild("modalNewEvent", { static: true }) modalNewEvent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
@@ -102,48 +104,9 @@ export class DashboardComponent implements OnInit {
 
   refresh = new Subject<void>();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: "A 3 day event",
-      color: { ...colors.red },
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: "An event with no end date",
-      color: { ...colors.yellow },
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: "A long event that spans 2 months",
-      color: { ...colors.blue },
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: "A draggable and resizable event",
-      color: { ...colors.yellow },
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
+  events: CalendarEvent[] = [];
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
   constructor(
     private modal: NgbModal,
@@ -153,9 +116,12 @@ export class DashboardComponent implements OnInit {
 
   newEventForm!: FormGroup;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchCalendarEvents();
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    console.log(date, events);
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -189,7 +155,8 @@ export class DashboardComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    this.modal.open(this.modalContent, {
+    console.log(this.modalData);
+    this.modal.open(this.modalViewCalendarEvent, {
       size: "lg",
       windowClass: "zindex",
     });
@@ -207,20 +174,37 @@ export class DashboardComponent implements OnInit {
       size: "lg",
       windowClass: "zindex",
     });
-    // this.events = [
-    //   ...this.events,
-    //   {
-    //     title: "New event",
-    //     start: startOfDay(new Date()),
-    //     end: endOfDay(new Date()),
-    //     color: colors.red,
-    //     draggable: true,
-    //     resizable: {
-    //       beforeStart: true,
-    //       afterEnd: true,
-    //     },
-    //   },
-    // ];
+  }
+
+  fetchCalendarEvents() {
+    this.crudService.FetchCalendarEvents().subscribe((data) => {
+      this.events = data.map((e) => {
+        return {
+          title: e.title,
+          start: Utils.getDateFromMilliseconds(e.start),
+          end: Utils.getDateFromMilliseconds(e.end),
+          description: e.description,
+          color: colors.red,
+          draggable: true,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true,
+          },
+        };
+      });
+      //date for 2 seconds after the events are fetched
+      setTimeout(() => {
+        //new date with time set to 00:00:00
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        this.refresh.next();
+        //this.dayClicked({ date: today, events: [] });
+      }, 2000);
+    }),
+      (error) => {
+        console.log(error);
+      };
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
