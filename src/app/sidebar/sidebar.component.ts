@@ -12,7 +12,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "/members",
     title: "Members",
-    icon: "nc-bullet-list-67",
+    icon: "nc-circle-10",
     class: "",
   },
   {
@@ -28,14 +28,8 @@ export const ROUTES: RouteInfo[] = [
     class: "",
   },
   {
-    path: "/parents",
-    title: "Parents",
-    icon: "nc-circle-10",
-    class: "",
-  },
-  {
-    path: "/teachers",
-    title: "Teachers",
+    path: "/requests",
+    title: "Requests",
     icon: "nc-book-bookmark",
     class: "",
   },
