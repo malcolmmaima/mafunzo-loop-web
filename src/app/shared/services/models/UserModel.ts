@@ -6,4 +6,5 @@ export interface UserModel {
   profilePic: string;
   accountType: string;
   enabled: boolean;
+  bio: string;
 }

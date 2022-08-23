@@ -270,4 +270,21 @@ export class CrudService {
     const userRequests = requestsRef.collection(phoneNumber);
     return userRequests.doc(request["id"]).set(request, { merge: true });
   }
+
+  getUserDetails(userId: string) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${userId}`
+    );
+
+    return userRef.valueChanges();
+  }
+
+  updateUser(updatedSchoolFields) {
+    const schoolId = Utils.getUserId();
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${schoolId}`
+    );
+
+    return userRef.set(updatedSchoolFields, { merge: true });
+  }
 }

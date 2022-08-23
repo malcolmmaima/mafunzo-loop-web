@@ -58,6 +58,7 @@ export class SignupComponent implements OnInit {
         profilePic: "",
         accountType: webDashDefaultAccountType,
         enabled: false,
+        bio: "",
       };
       this.authService
         .SignUp(

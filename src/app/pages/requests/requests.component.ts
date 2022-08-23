@@ -119,7 +119,7 @@ export class RequestsComponent implements OnInit {
       data.forEach((request) => {
         this.tableData2.dataRows.push([
           request["subject"],
-          Utils.getDateFromMilliseconds(request["createdAt"]),
+          Utils.getDateFromMilliseconds(request["createdAt"]).toDateString(),
           request["message"].substring(0, 100) + "...",
           request["status"],
           request["id"],

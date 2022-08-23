@@ -126,6 +126,7 @@ export class AuthService {
         profilePic: user.profilePic,
         accountType: user.accountType,
         enabled: result.user.emailVerified,
+        bio: "",
       };
 
       const schoolData: SchoolModel = {
