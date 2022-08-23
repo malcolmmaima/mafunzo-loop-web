@@ -2,8 +2,10 @@ import { Injectable, NgZone } from "@angular/core";
 import {
   AngularFirestore,
   AngularFirestoreDocument,
+  AngularFirestoreCollection,
 } from "@angular/fire/compat/firestore/";
 import { ToastrService } from "ngx-toastr";
+import { map } from "rxjs";
 import Utils from "../../helpers/MafunzoUtils";
 
 @Injectable({

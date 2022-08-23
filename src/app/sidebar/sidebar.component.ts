@@ -24,7 +24,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: "/announcements",
     title: "Announcements",
-    icon: "nc-hat-3",
+    icon: "nc-bell-55",
     class: "",
   },
   {
