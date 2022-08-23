@@ -250,4 +250,24 @@ export class CrudService {
     );
     return calendarEventsRef.delete();
   }
+
+  getRequests(phoneNumber: string) {
+    const schoolId = Utils.getUserId();
+    const requestsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `requests/${schoolId}`
+    );
+
+    const userRequests = requestsRef.collection(phoneNumber).valueChanges();
+    return userRequests;
+  }
+
+  updateRequest(phoneNumber: string, request: any) {
+    const schoolId = Utils.getUserId();
+    const requestsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `requests/${schoolId}`
+    );
+
+    const userRequests = requestsRef.collection(phoneNumber);
+    return userRequests.doc(request["id"]).set(request, { merge: true });
+  }
 }
