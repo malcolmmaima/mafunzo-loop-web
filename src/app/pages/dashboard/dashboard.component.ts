@@ -133,6 +133,13 @@ export class DashboardComponent implements OnInit {
       //loop through res and count the number of students, parents, teachers and school users
       //that belong to the school the user is logged in as
 
+      this.totalStudents = 0;
+      this.totalParents = 0;
+      this.totalTeachers = 0;
+      this.totalSchoolUsers = 0;
+      this.totalBusDrivers = 0;
+      this.otherUsers = 0;
+
       for (let i = 0; i < res.length; i++) {
         for (const key in res[i]["schools"]) {
           if (key == schoolId) {

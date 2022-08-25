@@ -35,33 +35,7 @@ export class MembersListComponent implements OnInit {
     console.log(
       Utils.generateRandomString(5) + userId + Utils.generateRandomString(10)
     );
-    this.crudService.GetWaitListUsers().subscribe((res) => {
-      this.loading = false;
-
-      this.tableData1.dataRows = [];
-      for (let i = 0; i < res.length; i++) {
-        for (const key in res[i]["schools"]) {
-          if (key === userId) {
-            this.tableData1.headerRow = [
-              "Name",
-              "User",
-              "Email",
-              "Phone",
-              "Verified",
-            ];
-            this.tableData1.dataRows.push([
-              res[i]["firstName"] + " " + res[i]["lastName"],
-              res[i]["accountType"],
-              res[i]["email"],
-              res[i]["phone"],
-              res[i]["schools"][userId],
-            ]);
-          }
-        }
-
-        this.usersFound = this.tableData1.dataRows.length > 0;
-      }
-    });
+    this.getUsers("all", userId);
   }
 
   ngAfterViewInit() {
@@ -89,28 +63,81 @@ export class MembersListComponent implements OnInit {
     //if filter value is students then filter by STUDENT
     //if filter value is busdrivers then filter by BUS_DRIVER
 
-    console.log(filterValue);
     if (filterValue === "all") {
-      this.ngOnInit();
-    } else if (filterValue == "parents") {
-      this.tableData1.dataRows = this.tableData1.dataRows.filter(
-        (row) => row[1] === "PARENT"
-      );
-    } else if (filterValue == "teachers") {
-      this.tableData1.dataRows = this.tableData1.dataRows.filter(
-        (row) => row[1] === "TEACHER"
-      );
-    } else if (filterValue == "students") {
-      this.tableData1.dataRows = this.tableData1.dataRows.filter(
-        (row) => row[1] === "STUDENT"
-      );
-    } else if (filterValue == "busdrivers") {
-      this.tableData1.dataRows = this.tableData1.dataRows.filter(
-        (row) => row[1] === "BUS_DRIVER"
-      );
-    } else {
+      this.getUsers("all", Utils.getUserId());
+    }
+    if (filterValue == "parents") {
+      this.getUsers("PARENT", Utils.getUserId());
+    }
+    if (filterValue == "teachers") {
+      this.getUsers("TEACHER", Utils.getUserId());
+    }
+    if (filterValue == "students") {
+      this.getUsers("STUDENT", Utils.getUserId());
+    }
+    if (filterValue == "busdrivers") {
+      this.getUsers("BUS_DRIVER", Utils.getUserId());
+    }
+    if (this.tableData1.dataRows.length == 0) {
+      this.tableData1.dataRows = [];
       this.usersFound = false;
       this.loading = false;
     }
+  }
+
+  getUsers(filterValue: string, userId) {
+    this.crudService.GetWaitListUsers().subscribe((res) => {
+      this.loading = false;
+
+      this.tableData1.dataRows = [];
+      if (filterValue == "all") {
+        for (let i = 0; i < res.length; i++) {
+          for (const key in res[i]["schools"]) {
+            if (key === userId) {
+              this.tableData1.headerRow = [
+                "Name",
+                "User",
+                "Email",
+                "Phone",
+                "Verified",
+              ];
+              this.tableData1.dataRows.push([
+                res[i]["firstName"] + " " + res[i]["lastName"],
+                res[i]["accountType"],
+                res[i]["email"],
+                res[i]["phone"],
+                res[i]["schools"][userId],
+              ]);
+            }
+          }
+
+          this.usersFound = this.tableData1.dataRows.length > 0;
+        }
+      } else {
+        this.tableData1.dataRows = [];
+        for (let i = 0; i < res.length; i++) {
+          for (const key in res[i]["schools"]) {
+            if (key === userId && res[i]["accountType"] === filterValue) {
+              this.tableData1.headerRow = [
+                "Name",
+                "User",
+                "Email",
+                "Phone",
+                "Verified",
+              ];
+              this.tableData1.dataRows.push([
+                res[i]["firstName"] + " " + res[i]["lastName"],
+                res[i]["accountType"],
+                res[i]["email"],
+                res[i]["phone"],
+                res[i]["schools"][userId],
+              ]);
+            }
+          }
+
+          this.usersFound = this.tableData1.dataRows.length > 0;
+        }
+      }
+    });
   }
 }
