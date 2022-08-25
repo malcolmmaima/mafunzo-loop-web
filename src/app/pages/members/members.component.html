@@ -2,6 +2,23 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
+        <!-- Filter drop down with options namely PARENTS, TEACHERS, STUDENTS, BUS DRIVERS -->
+        <div class="col-md-2 float-right">
+          <div class="form-group">
+            <label for="filter">Filter</label>
+            <select
+              class="form-control"
+              id="filter"
+              (change)="filterMembers($event.target.value)"
+            >
+              <option value="all">All</option>
+              <option value="parents">Parents</option>
+              <option value="teachers">Teachers</option>
+              <option value="students">Students</option>
+              <option value="busdrivers">Bus Drivers</option>
+            </select>
+          </div>
+        </div>
         <h4 class="card-title">School Members</h4>
       </div>
       <div class="card-body">

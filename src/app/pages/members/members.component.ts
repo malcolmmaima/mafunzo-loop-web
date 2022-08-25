@@ -80,4 +80,31 @@ export class MembersListComponent implements OnInit {
   declineUser(user) {
     this.crudService.DeclineUser(user);
   }
+
+  filterMembers(filterValue: string) {
+    //if filter value is parents then filter by PARENT
+    //if filter value is teachers then filter by TEACHER
+    //if filter value is students then filter by STUDENT
+    //if filter value is busdrivers then filter by BUS_DRIVER
+
+    if (filterValue === "all") {
+      this.ngOnInit();
+    } else if (filterValue == "parents") {
+      this.tableData1.dataRows = this.tableData1.dataRows.filter(
+        (row) => row[1] === "PARENT"
+      );
+    } else if (filterValue == "teachers") {
+      this.tableData1.dataRows = this.tableData1.dataRows.filter(
+        (row) => row[1] === "TEACHER"
+      );
+    } else if (filterValue == "students") {
+      this.tableData1.dataRows = this.tableData1.dataRows.filter(
+        (row) => row[1] === "STUDENT"
+      );
+    } else if (filterValue == "busdrivers") {
+      this.tableData1.dataRows = this.tableData1.dataRows.filter(
+        (row) => row[1] === "BUS_DRIVER"
+      );
+    }
+  }
 }
