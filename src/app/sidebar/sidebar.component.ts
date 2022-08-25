@@ -40,12 +40,12 @@ export const ROUTES: RouteInfo[] = [
     icon: "nc-single-02",
     class: "",
   },
-  {
-    path: "/upgrade",
-    title: "Upgrade to PRO",
-    icon: "nc-spaceship",
-    class: "active-pro",
-  },
+  // {
+  //   path: "/upgrade",
+  //   title: "Upgrade to PRO",
+  //   icon: "nc-spaceship",
+  //   class: "active-pro",
+  // },
 ];
 
 @Component({
