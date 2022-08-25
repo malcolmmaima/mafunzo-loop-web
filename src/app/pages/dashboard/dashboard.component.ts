@@ -69,6 +69,8 @@ export class DashboardComponent implements OnInit {
   totalParents: number = 0;
   totalTeachers: number = 0;
   totalSchoolUsers: number = 0;
+  totalBusDrivers: number = 0;
+  otherUsers: number = 0;
 
   @ViewChild("modalViewCalendarEvent", { static: true })
   modalViewCalendarEvent: TemplateRef<any>;
@@ -122,6 +124,43 @@ export class DashboardComponent implements OnInit {
     //init calendar with parents calendar events
     this.filterVal = "parents";
     this.fetchParentsCalendarEvents();
+    this.fetchSchoolMembers();
+  }
+
+  fetchSchoolMembers() {
+    const schoolId = Utils.getUserId();
+    this.crudService.GetWaitListUsers().subscribe((res) => {
+      //loop through res and count the number of students, parents, teachers and school users
+      //that belong to the school the user is logged in as
+
+      for (let i = 0; i < res.length; i++) {
+        for (const key in res[i]["schools"]) {
+          if (key == schoolId) {
+            if (res[i]["accountType"] == "STUDENT") {
+              this.totalStudents++;
+            } else if (res[i]["accountType"] == "PARENT") {
+              this.totalParents++;
+            } else if (res[i]["accountType"] == "TEACHER") {
+              this.totalTeachers++;
+            } else if (res[i]["accountType"] == "BUS_DRIVER") {
+              this.totalBusDrivers++;
+            } else {
+              this.otherUsers++;
+            }
+          }
+        }
+
+        //once end of loop, add the number of students, parents, teachers and school users to the total number of school users
+        if (i == res.length - 1) {
+          this.totalSchoolUsers +=
+            this.totalStudents +
+            this.totalParents +
+            this.totalTeachers +
+            this.totalBusDrivers +
+            this.otherUsers;
+        }
+      }
+    });
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
