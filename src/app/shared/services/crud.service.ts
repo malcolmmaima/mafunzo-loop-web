@@ -204,6 +204,38 @@ export class CrudService {
     }
   }
 
+  AddNewTimeTable(timeTable, grade): Promise<any> {
+    if (timeTable != null) {
+      const schoolId = Utils.getUserId();
+      const subjectId = this.afs.createId();
+      const subjectsRef: AngularFirestoreDocument<any> = this.afs.doc(
+        `subjects/${schoolId}/${grade}/${subjectId}`
+      );
+
+      //append new firestore document id to the timeTable object then add to the database
+      const timeTableNew = {
+        id: subjectId,
+        subjectName: timeTable["subjectName"],
+        subjectCode: timeTable["subjectCode"],
+        subjectGrade: grade,
+        assignedTeacher: timeTable["subjectTeacher"],
+        subjectRoom: timeTable["subjectRoom"],
+        startTime: timeTable["start"],
+        endTime: timeTable["end"],
+        dayOfWeek: timeTable["dayOfWeek"],
+      };
+
+      return subjectsRef
+        .set(timeTableNew, { merge: true })
+        .then(() => {
+          this.toastr.success("TimeTable added successfully");
+        })
+        .catch((error) => {
+          this.toastr.error("Unable to add TimeTable");
+        });
+    }
+  }
+
   FetchParentsCalendarEvents() {
     const schoolId = Utils.getUserId();
     const calendarEventsRef: AngularFirestoreDocument<any> = this.afs.doc(
@@ -321,13 +353,29 @@ export class CrudService {
       return teacherRef
         .set(teacherNew, { merge: true })
         .then(() => {
-          this.toastr.success("Teacher created successfully");
+          this.toastr.info(
+            "Teacher: " +
+              teacherNew.firstName +
+              " " +
+              teacherNew.lastName +
+              " updated successfully"
+          );
         })
         .catch((error) => {
-          this.toastr.error("Unable to create teacher");
+          console.log(error);
+          this.toastr.error("Unable to update teacher record");
         });
     } else {
-      this.toastr.error("Unable to create teacher");
+      this.toastr.error("Unable to update teacher record");
     }
+  }
+
+  fetchGradeTimeTable(grade: string) {
+    const schoolId = Utils.getUserId();
+    const gradeTimeTableRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `subjects/${schoolId}`
+    );
+
+    return gradeTimeTableRef.collection(grade).valueChanges();
   }
 }

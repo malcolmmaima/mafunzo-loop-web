@@ -32,7 +32,9 @@ export class MembersListComponent implements OnInit {
       dataRows: [],
     };
     const userId = Utils.getUserId();
-    console.log(userId);
+    console.log(
+      Utils.generateRandomString(5) + userId + Utils.generateRandomString(10)
+    );
     this.crudService.GetWaitListUsers().subscribe((res) => {
       this.loading = false;
 
