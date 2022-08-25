@@ -130,6 +130,10 @@ export class CrudService {
         )
         .then(() => {
           this.toastr.success(user[0] + " approved successfully");
+
+          if (user[1] == "TEACHER") {
+            this.CreateTeacher(user, true);
+          }
         })
         .catch((error) => {
           this.toastr.error("Unable to approve " + user[0]);
@@ -160,6 +164,9 @@ export class CrudService {
         )
         .then(() => {
           this.toastr.warning(user[0] + " blocked successfully");
+          if (user[1] == "TEACHER") {
+            this.CreateTeacher(user, false);
+          }
         })
         .catch((error) => {
           this.toastr.error("Unable to block " + user[0]);
@@ -286,5 +293,41 @@ export class CrudService {
     );
 
     return userRef.set(updatedSchoolFields, { merge: true });
+  }
+
+  CreateTeacher(teacher, activeTeacher: boolean) {
+    //make sure teacher is not null and has a valid phone number
+    if (teacher != null && teacher[3] != "") {
+      const schoolId = Utils.getUserId();
+      const teacherRef: AngularFirestoreDocument<any> = this.afs.doc(
+        `teachers/${schoolId}/collection/${teacher[3]}`
+      );
+
+      //teacher[0] is a combination of first name and last name, we want to split it into first name and last name
+      const teacherNew = {
+        id: teacher[3],
+        firstName: teacher[0].split(" ")[0],
+        lastName: teacher[0].split(" ")[1],
+        phoneNumber: teacher[3],
+        emailAddress: teacher[2],
+        dateCreated: Utils.getCurrentTime(),
+        bio: "...",
+        grades: [],
+        subjects: [],
+        profilePicture: Utils.defaultAvatar,
+        status: activeTeacher ? "ACTIVE" : "INACTIVE",
+      };
+
+      return teacherRef
+        .set(teacherNew, { merge: true })
+        .then(() => {
+          this.toastr.success("Teacher created successfully");
+        })
+        .catch((error) => {
+          this.toastr.error("Unable to create teacher");
+        });
+    } else {
+      this.toastr.error("Unable to create teacher");
+    }
   }
 }

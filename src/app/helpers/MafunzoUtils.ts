@@ -1,6 +1,9 @@
 export default class Utils {
   static defaultAnnouncementImage: string =
     "https://centennial.dsbn.org/images/default-source/Website-images/announcement_clip_art.jpg";
+
+  static defaultAvatar: string =
+    "https://firebasestorage.googleapis.com/v0/b/mafunzo-africa.appspot.com/o/images%2Fdefault_avatar.jpg?alt=media&token=5d9f5b77-65b2-4828-87a7-1f7082dec5bb";
   static formatPhoneNumber(phoneNumber) {
     return phoneNumber.replace(/^0/, "");
   }

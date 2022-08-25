@@ -87,6 +87,7 @@ export class MembersListComponent implements OnInit {
     //if filter value is students then filter by STUDENT
     //if filter value is busdrivers then filter by BUS_DRIVER
 
+    console.log(filterValue);
     if (filterValue === "all") {
       this.ngOnInit();
     } else if (filterValue == "parents") {
@@ -105,6 +106,9 @@ export class MembersListComponent implements OnInit {
       this.tableData1.dataRows = this.tableData1.dataRows.filter(
         (row) => row[1] === "BUS_DRIVER"
       );
+    } else {
+      this.usersFound = false;
+      this.loading = false;
     }
   }
 }
