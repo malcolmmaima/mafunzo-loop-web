@@ -1,0 +1,111 @@
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <!-- The image half -->
+    <div class="col-md-6 d-none d-md-flex bg-image"></div>
+
+    <!-- The content half -->
+    <div class="col-md-6 bg-light">
+      <div class="login d-flex align-items-center py-5">
+        <!-- Demo content-->
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10 col-xl-7 mx-auto">
+              <!-- A logo above the form of small size -->
+              <div class="text-center mb-4">
+                <img
+                  src="assets/img/logo.png"
+                  alt="Mafunzo"
+                  width="100"
+                  class="mb-2"
+                />
+                <h3 class="display-5 text-center">Welcome to Mafunzo</h3>
+                <p class="text-muted mb-0">
+                  Please enter your email address and password to access your
+                  account.
+                </p>
+              </div>
+
+              <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <div class="form-group mb-3">
+                  <input
+                    id="inputEmail"
+                    formControlName="inputEmail"
+                    type="email"
+                    placeholder="Email address"
+                    required=""
+                    autofocus=""
+                    class="form-control rounded-pill border-0 shadow-sm px-4"
+                  /><span
+                    class="text-danger"
+                    *ngIf="
+                      loginForm.controls['inputEmail'].dirty &&
+                      loginForm.hasError('inputEmail', 'inputEmail')
+                    "
+                    >Email is required</span
+                  >
+                </div>
+                <div class="form-group mb-3">
+                  <input
+                    id="inputPassword"
+                    formControlName="inputPassword"
+                    type="password"
+                    placeholder="Password"
+                    required=""
+                    class="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
+                  /><span
+                    class="text-danger"
+                    *ngIf="
+                      loginForm.controls['inputPassword'].dirty &&
+                      loginForm.hasError('inputPassword', 'inputPassword')
+                    "
+                    >Password is required</span
+                  >
+                </div>
+                <div class="custom-control custom-checkbox mb-3">
+                  <input
+                    id="customCheck1"
+                    type="checkbox"
+                    class="custom-control-input"
+                  />
+                  <label for="customCheck1" class="custom-control-label"
+                    >Remember password</label
+                  >
+                </div>
+                <button
+                  class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                  [disabled]="loginForm.invalid"
+                >
+                  <i class="fa fa-spinner fa-spin" *ngIf="loading"> </i>
+                  Sign in
+                </button>
+                <div class="text-center d-flex justify-content-between mt-4">
+                  <p>
+                    Forgot login credentials?
+                    <a
+                      class="font-italic text-muted"
+                      routerLink="/forgot-password"
+                    >
+                      <u>Click here</u></a
+                    >
+                  </p>
+                </div>
+                <!-- signup button -->
+                <div class="text-center d-flex justify-content-between mt-4">
+                  <p>
+                    Don't have an account?
+                    <a class="font-italic text-muted" routerLink="/signup"
+                      >Sign up</a
+                    >
+                  </p>
+                  <br />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- End -->
+      </div>
+    </div>
+    <!-- End -->
+  </div>
+</div>

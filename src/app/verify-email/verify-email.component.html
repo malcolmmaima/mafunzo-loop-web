@@ -1,0 +1,62 @@
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <!-- The image half -->
+    <div class="col-md-6 d-none d-md-flex bg-image"></div>
+
+    <!-- The content half -->
+    <div class="col-md-6 bg-light">
+      <div class="login d-flex align-items-center py-5">
+        <!-- Demo content-->
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10 col-xl-7 mx-auto">
+              <!-- A logo above the form of small size -->
+              <div class="text-center mb-4">
+                <img
+                  src="assets/img/logo.png"
+                  alt="Mafunzo"
+                  width="100"
+                  class="mb-2"
+                />
+                <h3 class="display-5 text-center">Thank You for Registering</h3>
+              </div>
+
+              <div class="displayBlock">
+                <div class="formGroup" *ngIf="authService.userData as user">
+                  <p class="text-center">
+                    We have sent a confirmation email to
+                    <strong>{{ user.email }}</strong
+                    >.
+                  </p>
+                  <p class="text-center">
+                    Please check your email (including spam) and click on the
+                    link to verfiy your email address.
+                  </p>
+                </div>
+
+                <div class="formGroup">
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                    (click)="authService.SendVerificationMail()"
+                  >
+                    <i class="fas fa-redo-alt"></i>
+                    Resend Verification Email
+                  </button>
+                </div>
+                <div class="text-center d-flex justify-content-between mt-4">
+                  <p>
+                    Back to
+                    <a href="/" class="font-italic text-muted"> <u>Login</u></a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End -->
+      </div>
+    </div>
+    <!-- End -->
+  </div>
+</div>

@@ -1,85 +1,127 @@
 <div class="row">
-  <div class="col-lg-3 col-md-6 col-sm-6">
+  <div class="col-lg-2 col-md-6 col-sm-6">
     <div class="card card-stats">
-      <div class="card-body ">
+      <div class="card-body">
         <div class="row">
           <div class="col-5 col-md-4">
             <div class="icon-big text-center icon-warning">
-              <i class="nc-icon nc-globe text-warning"></i>
+              <i class="nc-icon nc-hat-3 text-warning"></i>
             </div>
           </div>
           <div class="col-7 col-md-8">
             <div class="numbers">
-              <p class="card-category">Capacity</p>
-              <p class="card-title">150GB
-                <p>
+              <p class="card-category">Students</p>
+              <p class="card-title">{{ totalStudents }}</p>
+              <p></p>
             </div>
           </div>
         </div>
       </div>
-      <div class="card-footer ">
-        <hr>
-        <div class="stats">
-          <i class="fa fa-refresh"></i> Update Now
-        </div>
+      <div class="card-footer">
+        <!-- <hr />
+        <div class="stats"><i class="fa fa-refresh"></i> Update Now</div> -->
       </div>
     </div>
   </div>
-  <div class="col-lg-3 col-md-6 col-sm-6">
+  <div class="col-lg-2 col-md-6 col-sm-6">
     <div class="card card-stats">
-      <div class="card-body ">
+      <div class="card-body">
         <div class="row">
           <div class="col-5 col-md-4">
             <div class="icon-big text-center icon-warning">
-              <i class="nc-icon nc-money-coins text-success"></i>
+              <i class="nc-icon nc-circle-10 text-success"></i>
             </div>
           </div>
           <div class="col-7 col-md-8">
             <div class="numbers">
-              <p class="card-category">Revenue</p>
-              <p class="card-title">$ 1,345
-                <p>
+              <p class="card-category">Parents</p>
+              <p class="card-title">{{ totalParents }}</p>
+              <p></p>
             </div>
           </div>
         </div>
       </div>
-      <div class="card-footer ">
-        <hr>
-        <div class="stats">
-          <i class="fa fa-calendar-o"></i> Last day
-        </div>
+      <div class="card-footer">
+        <!-- <hr />
+        <div class="stats"><i class="fa fa-refresh"></i> Update now</div> -->
       </div>
     </div>
   </div>
-  <div class="col-lg-3 col-md-6 col-sm-6">
+  <div class="col-lg-2 col-md-6 col-sm-6">
     <div class="card card-stats">
-      <div class="card-body ">
+      <div class="card-body">
         <div class="row">
           <div class="col-5 col-md-4">
             <div class="icon-big text-center icon-warning">
-              <i class="nc-icon nc-vector text-danger"></i>
+              <i class="nc-icon nc-book-bookmark text-danger"></i>
             </div>
           </div>
           <div class="col-7 col-md-8">
             <div class="numbers">
-              <p class="card-category">Errors</p>
-              <p class="card-title">23
-                <p>
+              <p class="card-category">Teachers</p>
+              <p class="card-title">{{ totalTeachers }}</p>
+              <p></p>
             </div>
           </div>
         </div>
       </div>
-      <div class="card-footer ">
-        <hr>
-        <div class="stats">
-          <i class="fa fa-clock-o"></i> In the last hour
-        </div>
+      <div class="card-footer">
+        <!-- <hr />
+        <div class="stats"><i class="fa fa-refresh"></i> Update now</div> -->
       </div>
     </div>
   </div>
-  <div class="col-lg-3 col-md-6 col-sm-6">
+  <div class="col-lg-2 col-md-6 col-sm-6">
     <div class="card card-stats">
-      <div class="card-body ">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-bus-front-12 text-center"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Drivers</p>
+              <p class="card-title">{{ totalBusDrivers }}</p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <!-- <hr />
+        <div class="stats"><i class="fa fa-refresh"></i> Update now</div> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-2 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-5 col-md-4">
+            <div class="icon-big text-center icon-warning">
+              <i class="nc-icon nc-world-2 text-danger"></i>
+            </div>
+          </div>
+          <div class="col-7 col-md-8">
+            <div class="numbers">
+              <p class="card-category">Others</p>
+              <p class="card-title">{{ otherUsers }}</p>
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <!-- <hr />
+        <div class="stats"><i class="fa fa-refresh"></i> Update now</div> -->
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-2 col-md-6 col-sm-6">
+    <div class="card card-stats">
+      <div class="card-body">
         <div class="row">
           <div class="col-5 col-md-4">
             <div class="icon-big text-center icon-warning">
@@ -88,84 +130,321 @@
           </div>
           <div class="col-7 col-md-8">
             <div class="numbers">
-              <p class="card-category">Followers</p>
-              <p class="card-title">+45K
-                <p>
+              <p class="card-category">Total</p>
+              <p class="card-title">{{ totalSchoolUsers }}</p>
+              <p></p>
             </div>
           </div>
         </div>
       </div>
-      <div class="card-footer ">
-        <hr>
-        <div class="stats">
-          <i class="fa fa-refresh"></i> Update now
-        </div>
+      <div class="card-footer">
+        <!-- <hr />
+        <div class="stats"><i class="fa fa-refresh"></i> Update now</div> -->
       </div>
     </div>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12">
-    <div class="card ">
-      <div class="card-header ">
-        <h5 class="card-title">Users Behavior</h5>
-        <p class="card-category">24 Hours performance</p>
-      </div>
-      <div class="card-body ">
-        <canvas id=chartHours width="400" height="100"></canvas>
-      </div>
-      <div class="card-footer ">
-        <hr>
-        <div class="stats">
-          <i class="fa fa-history"></i> Updated 3 minutes ago
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-4">
-    <div class="card ">
-      <div class="card-header ">
-        <h5 class="card-title">Email Statistics</h5>
-        <p class="card-category">Last Campaign Performance</p>
-      </div>
-      <div class="card-body ">
-        <canvas id="chartEmail"></canvas>
-      </div>
-      <div class="card-footer ">
-        <div class="legend">
-          <i class="fa fa-circle text-primary"></i> Opened
-          <i class="fa fa-circle text-warning"></i> Read
-          <i class="fa fa-circle text-danger"></i> Deleted
-          <i class="fa fa-circle text-gray"></i> Unopened
-        </div>
-        <hr>
-        <div class="stats">
-          <i class="fa fa-calendar"></i> Number of emails sent
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-8">
-    <div class="card card-chart">
+    <div class="card">
       <div class="card-header">
-        <h5 class="card-title">NASDAQ: AAPL</h5>
-        <p class="card-category">Line Chart with Points</p>
+        <div class="col-md-2 float-right">
+          <div class="form-group">
+            <label for="filter">Filter</label>
+            <select
+              class="form-control"
+              id="filter"
+              (change)="filterCalendar($event.target.value)"
+            >
+              <option value="parents">Parents</option>
+              <option value="teachers">Teachers</option>
+              <option value="students">Students</option>
+              <option value="busdrivers">Bus Drivers</option>
+            </select>
+          </div>
+        </div>
+        <h5 class="card-title">Calendar of Events</h5>
       </div>
       <div class="card-body">
-        <canvas id="speedChart" width="400" height="100"></canvas>
+        <!-- Calendar component -->
+        <div class="row text-center">
+          <div class="col-md-4">
+            <div class="btn-group">
+              <div
+                class="btn btn-primary"
+                mwlCalendarPreviousView
+                [view]="view"
+                [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()"
+              >
+                Previous
+              </div>
+              <div
+                class="btn btn-outline-secondary"
+                mwlCalendarToday
+                [(viewDate)]="viewDate"
+              >
+                Today
+              </div>
+              <div
+                class="btn btn-primary"
+                mwlCalendarNextView
+                [view]="view"
+                [(viewDate)]="viewDate"
+                (viewDateChange)="closeOpenMonthViewDay()"
+              >
+                Next
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <h3>{{ viewDate | calendarDate: view + "ViewTitle":"en" }}</h3>
+          </div>
+          <div class="col-md-4">
+            <div class="btn-group">
+              <div
+                class="btn btn-primary"
+                (click)="setView(CalendarView.Month)"
+                [class.active]="view === CalendarView.Month"
+              >
+                Month
+              </div>
+              <div
+                class="btn btn-primary"
+                (click)="setView(CalendarView.Week)"
+                [class.active]="view === CalendarView.Week"
+              >
+                Week
+              </div>
+              <div
+                class="btn btn-primary"
+                (click)="setView(CalendarView.Day)"
+                [class.active]="view === CalendarView.Day"
+              >
+                Day
+              </div>
+              <div
+                class="btn btn-success"
+                (click)="addEvent()"
+                [class.active]="view === CalendarView.Day"
+              >
+                Add New
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div [ngSwitch]="view">
+          <mwl-calendar-month-view
+            *ngSwitchCase="CalendarView.Month"
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            [activeDayIsOpen]="activeDayIsOpen"
+            (dayClicked)="dayClicked($event.day)"
+            (eventClicked)="handleEvent('Clicked', $event.event)"
+            (eventTimesChanged)="eventTimesChanged($event)"
+          >
+          </mwl-calendar-month-view>
+          <mwl-calendar-week-view
+            *ngSwitchCase="CalendarView.Week"
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            (eventClicked)="handleEvent('Clicked', $event.event)"
+            (eventTimesChanged)="eventTimesChanged($event)"
+          >
+          </mwl-calendar-week-view>
+          <mwl-calendar-day-view
+            *ngSwitchCase="CalendarView.Day"
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            (eventClicked)="handleEvent('Clicked', $event.event)"
+            (eventTimesChanged)="eventTimesChanged($event)"
+          >
+          </mwl-calendar-day-view>
+        </div>
+
+        <br /><br /><br />
+
+        <!-- End Calendar component -->
       </div>
       <div class="card-footer">
-        <div class="chart-legend">
-          <i class="fa fa-circle text-info"></i> Tesla Model S
-          <i class="fa fa-circle text-warning"></i> BMW 5 Series
-        </div>
-        <hr/>
-        <div class="card-stats">
-          <i class="fa fa-check"></i> Data information certified
-        </div>
+        <!-- <hr />
+        <div class="stats" ><i class="fa fa-refresh"></i> Update Now</div> -->
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #modalViewCalendarEvent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Calendar event details</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          [value]="modalData.event.title"
+          [disabled]="true"
+        />
+      </div>
+      <!-- Description -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          id="description"
+          rows="3"
+          [value]="modalData.event.description"
+          [disabled]="true"
+        ></textarea>
+      </div>
+
+      <!-- starts at -->
+      <div class="form-group">
+        <label for="startsAt">Starts at</label>
+        <input
+          type="datetime"
+          class="form-control"
+          id="startsAt"
+          [value]="modalData.event.start"
+          [disabled]="true"
+        />
+      </div>
+
+      <!-- ends at -->
+      <div class="form-group">
+        <label for="endsAt">Ends at</label>
+        <input
+          type="datetime"
+          class="form-control"
+          id="endsAt"
+          [value]="modalData.event.end"
+          [disabled]="true"
+        />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <!-- delete button -->
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="deleteEvent(modalData.event)"
+      [disabled]="!modalData.event.id"
+    >
+      Delete
+    </button>
+
+    <!-- ok button -->
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      OK
+    </button>
+  </div>
+</ng-template>
+
+<!-- Add new Event form modal -->
+<ng-template #modalNewEvent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Add new event</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="newEventForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          formControlName="title"
+          placeholder="Enter title"
+        />
+      </div>
+      <!-- description -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          class="form-control"
+          id="description"
+          formControlName="description"
+          placeholder="Enter description"
+        ></textarea>
+      </div>
+
+      <!-- Account type namely: PARENT, STUDENT, TEACHER, BUS_DRIVER -->
+      <div class="form-group">
+        <label for="accountType">Event Target</label>
+        <select
+          class="form-control"
+          id="accountType"
+          formControlName="accountType"
+        >
+          <option value="PARENT">PARENT</option>
+          <option value="STUDENT">STUDENT</option>
+          <option value="TEACHER">TEACHER</option>
+          <option value="BUS_DRIVER">BUS_DRIVER</option>
+        </select>
+      </div>
+
+      <!-- Start date calendar select -->
+      <div class="form-group">
+        <label for="start">Start date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="start"
+          formControlName="start"
+          placeholder="Enter start date"
+          mwlFlatpickr
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          placeholder="Not set"
+        />
+      </div>
+
+      <!-- End date calendar select -->
+      <div class="form-group">
+        <label for="end">End date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="end"
+          formControlName="end"
+          placeholder="Enter end date"
+          mwlFlatpickr
+          [min]="newEventForm.get('start').value"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          placeholder="Not set"
+        />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="onSubmit()"
+      [disabled]="!newEventForm.valid"
+    >
+      Add
+    </button>
+  </div>
+</ng-template>

@@ -1,0 +1,115 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="card card-user">
+      <div class="image">
+        <img src="assets/img/bottom_pattern.png" alt="..." />
+      </div>
+      <div class="card-body">
+        <div class="author">
+          <a href="#">
+            <img
+              class="avatar border-gray"
+              src="{{ profilePicture }}"
+              alt="..."
+            />
+            <h5 class="title">{{ schoolName }}</h5>
+          </a>
+          <p class="description">{{ schoolLocation }}</p>
+        </div>
+        <p class="description text-center">
+          {{ bio }}
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Edit Profile</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="profileForm" (ngSubmit)="updateUser()">
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>School name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Username"
+                  id="schoolName"
+                  formControlName="schoolName"
+                  value="{{ schoolName }}"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Email"
+                  id="email"
+                  formControlName="email"
+                  value="{{ emailAddress }}"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Location</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Location"
+                  id="location"
+                  formControlName="location"
+                  value="{{ schoolLocation }}"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label>Joined</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Last Name"
+                  id="joined"
+                  formControlName="joined"
+                  value="{{ dateJoined }}"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>About Me</label>
+                <textarea
+                  class="form-control textarea"
+                  id="bio"
+                  formControlName="bio"
+                  [value]="bio"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="update ml-auto mr-auto">
+              <button type="submit" class="btn btn-primary btn-round">
+                Update Profile
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
