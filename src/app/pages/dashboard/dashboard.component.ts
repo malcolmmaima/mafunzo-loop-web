@@ -28,6 +28,7 @@ import {
 import { EventColor } from "calendar-utils";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CrudService } from "../../shared/services/crud.service";
+import { AuthService } from "../../shared/services/auth.service";
 import Utils from "../../helpers/MafunzoUtils";
 import { ToastrService } from "ngx-toastr";
 
@@ -115,6 +116,7 @@ export class DashboardComponent implements OnInit {
     private modal: NgbModal,
     private formBuilder: FormBuilder,
     private crudService: CrudService,
+    private authService: AuthService,
     private toastr: ToastrService
   ) {}
 
@@ -125,6 +127,25 @@ export class DashboardComponent implements OnInit {
     this.filterVal = "parents";
     this.fetchParentsCalendarEvents();
     this.fetchSchoolMembers();
+    this.fetchMyUserDetails();
+  }
+
+  fetchMyUserDetails() {
+    this.crudService.GetUserDetails(Utils.getUserId()).subscribe((res) => {
+      console.log(res["enabled"]);
+
+      if (res["enabled"] == false) {
+        this.toastr.warning(
+          "Your account has not been enabled. Please contact your school admin to enable your account.",
+          "Account Disabled"
+        );
+
+        //redirect to login page
+        setTimeout(() => {
+          this.authService.SignOut();
+        }, 5000);
+      }
+    });
   }
 
   fetchSchoolMembers() {

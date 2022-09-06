@@ -18,6 +18,13 @@ export class CrudService {
     public toastr: ToastrService
   ) {}
 
+  GetUserDetails(userId: string) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${userId}`
+    );
+    return userRef.valueChanges();
+  }
+
   GetWaitListUsers() {
     return this.afs.collection("users").valueChanges();
   }
