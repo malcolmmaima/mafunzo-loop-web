@@ -61,9 +61,9 @@ export class AnnouncementsComponent implements OnInit {
         this.loading = false;
         this.tableData1.dataRows = [];
         this.tableData1.headerRow = [];
+        this.tableData1.headerRow.push("", "Title", "To", "Body");
         this.announcementsFound = res.length > 0;
         for (let i = 0; i < res.length; i++) {
-          this.tableData1.headerRow.push("", "Title", "To", "Body");
           this.tableData1.dataRows.push([
             res[i]["id"],
             res[i]["announcementTitle"],
@@ -78,9 +78,9 @@ export class AnnouncementsComponent implements OnInit {
         this.loading = false;
         this.tableData1.dataRows = [];
         this.tableData1.headerRow = [];
+        this.tableData1.headerRow.push("", "Title", "To", "Body");
         this.announcementsFound = res.length > 0;
         for (let i = 0; i < res.length; i++) {
-          this.tableData1.headerRow.push("", "Title", "To", "Body");
           this.tableData1.dataRows.push([
             res[i]["id"],
             res[i]["announcementTitle"],
@@ -95,9 +95,9 @@ export class AnnouncementsComponent implements OnInit {
         this.loading = false;
         this.tableData1.dataRows = [];
         this.tableData1.headerRow = [];
+        this.tableData1.headerRow.push("", "Title", "To", "Body");
         this.announcementsFound = res.length > 0;
         for (let i = 0; i < res.length; i++) {
-          this.tableData1.headerRow.push("", "Title", "To", "Body");
           this.tableData1.dataRows.push([
             res[i]["id"],
             res[i]["announcementTitle"],
@@ -112,9 +112,9 @@ export class AnnouncementsComponent implements OnInit {
         this.loading = false;
         this.tableData1.dataRows = [];
         this.tableData1.headerRow = [];
+        this.tableData1.headerRow.push("", "Title", "To", "Body");
         this.announcementsFound = res.length > 0;
         for (let i = 0; i < res.length; i++) {
-          this.tableData1.headerRow.push("", "Title", "To", "Body");
           this.tableData1.dataRows.push([
             res[i]["id"],
             res[i]["announcementTitle"],
