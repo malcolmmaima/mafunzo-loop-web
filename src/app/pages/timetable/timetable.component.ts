@@ -61,7 +61,8 @@ export class TimeTableComponent {
 
   @ViewChild("modalViewCalendarEvent", { static: true })
   modalViewCalendarEvent: TemplateRef<any>;
-  @ViewChild("modalNewEvent", { static: true }) modalNewEvent: TemplateRef<any>;
+  @ViewChild("modalNewTimeTable", { static: true })
+  modalNewTimeTable: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Week; //default to week
 
@@ -93,7 +94,7 @@ export class TimeTableComponent {
   ];
 
   refresh = new Subject<void>();
-  filterVal = "";
+  filterVal = "grade_1";
   events: CalendarEvent[] = [];
 
   activeDayIsOpen: boolean = false;
@@ -105,12 +106,10 @@ export class TimeTableComponent {
     private toastr: ToastrService
   ) {}
 
-  newEventForm!: FormGroup;
+  newTimeTableForm!: FormGroup;
 
   ngOnInit() {
-    //init calendar with parents calendar events
-    this.filterVal = "grade_1";
-    this.fetchGradeTimetable("grade_10");
+    this.fetchGradeTimetable(this.filterVal);
   }
 
   fetchGradeTimetable(gradeLevel: string) {
@@ -173,14 +172,12 @@ export class TimeTableComponent {
   }
 
   addEvent(): void {
-    this.newEventForm = this.formBuilder.group({
-      title: ["", Validators.required],
-      description: ["", Validators.required],
-      accountType: ["", Validators.required],
-      start: ["", Validators.required],
-      end: ["", Validators.required],
+    this.newTimeTableForm = this.formBuilder.group({
+      subjectName: ["", Validators.required],
+      startTime: ["", Validators.required],
+      endTime: ["", Validators.required],
     });
-    this.modal.open(this.modalNewEvent, {
+    this.modal.open(this.modalNewTimeTable, {
       size: "lg",
       windowClass: "zindex",
     });
@@ -188,15 +185,15 @@ export class TimeTableComponent {
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.crudService
-      .deleteEvent(this.filterVal, eventToDelete.id.toString())
+      .deleteTimeTableItem(this.filterVal, eventToDelete.id.toString())
       .then(() => {
-        this.toastr.success("Event deleted");
+        this.toastr.success("Timetable item deleted");
         this.events = this.events.filter((event) => event !== eventToDelete);
         this.modal.dismissAll();
       }),
       (error) => {
         console.log(error);
-        this.toastr.error("Error deleting event");
+        this.toastr.error("Error deleting time table item");
       };
   }
 
@@ -211,15 +208,17 @@ export class TimeTableComponent {
   }
 
   onSubmit() {
-    this.crudService.AddNewEvent(this.newEventForm.value).then((data) => {
-      this.events.push(data);
-      this.modal.dismissAll();
-    });
+    this.crudService
+      .AddNewTimeTable(this.newTimeTableForm.value, this.filterVal)
+      .then((data) => {
+        this.events.push(data);
+        this.modal.dismissAll();
+      });
   }
 
   filterGrade(filterValue: string) {
     this.filterVal = filterValue;
-    console.log(this.filterVal);
+    this.fetchGradeTimetable(filterValue);
   }
 
   showNotification(from, align) {
@@ -228,7 +227,7 @@ export class TimeTableComponent {
     switch (color) {
       case 1:
         this.toastr.info(
-          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Welcome to <b>Paper Dashboard Angular</b> - a beautiful bootstrap dashboard for every web developer.</span>',
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Welcome to <b>Mafunzo Loop</b>.</span>',
           "",
           {
             timeOut: 4000,
@@ -241,7 +240,7 @@ export class TimeTableComponent {
         break;
       case 2:
         this.toastr.success(
-          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Welcome to <b>Paper Dashboard Angular</b> - a beautiful bootstrap dashboard for every web developer.</span>',
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Welcome to <b>Mafunzo Loop</b>.</span>',
           "",
           {
             timeOut: 4000,
@@ -254,7 +253,7 @@ export class TimeTableComponent {
         break;
       case 3:
         this.toastr.warning(
-          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Welcome to <b>Paper Dashboard Angular</b> - a beautiful bootstrap dashboard for every web developer.</span>',
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Welcome to <b>Mafunzo Loop</b>.</span>',
           "",
           {
             timeOut: 4000,
@@ -267,7 +266,7 @@ export class TimeTableComponent {
         break;
       case 4:
         this.toastr.error(
-          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Welcome to <b>Paper Dashboard Angular</b> - a beautiful bootstrap dashboard for every web developer.</span>',
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Welcome to <b>Mafunzo Loop</b>.</span>',
           "",
           {
             timeOut: 4000,
@@ -280,7 +279,7 @@ export class TimeTableComponent {
         break;
       case 5:
         this.toastr.show(
-          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Welcome to <b>Paper Dashboard Angular</b> - a beautiful bootstrap dashboard for every web developer.</span>',
+          '<span data-notify="icon" class="nc-icon nc-bell-55"></span><span data-notify="message">Welcome to <b>Mafunzo Loop</b>.</span>',
           "",
           {
             timeOut: 4000,

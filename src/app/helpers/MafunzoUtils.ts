@@ -51,4 +51,10 @@ export default class Utils {
   static getDateFromMilliseconds(milliseconds: number) {
     return new Date(milliseconds);
   }
+
+  //a function that takes a date/time in milliseconds and returns day of week
+  static getDayOfWeekFromMilliseconds(milliseconds: number) {
+    const date = new Date(milliseconds);
+    return date.getDay() - 1; // our days start from monday as 0
+  }
 }

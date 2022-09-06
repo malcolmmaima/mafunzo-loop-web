@@ -25,7 +25,7 @@
             </select>
           </div>
         </div>
-        <h4 class="card-title">School Timetable</h4>
+        <h4 class="card-title">School Timetable - ({{ filterVal }})</h4>
       </div>
       <div class="card-body">
         <!-- Calendar component -->
@@ -139,3 +139,138 @@
     </div>
   </div>
 </div>
+
+<ng-template #modalViewCalendarEvent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Calendar event details</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="title">Subject</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          [value]="modalData.event.title"
+          [disabled]="true"
+        />
+      </div>
+
+      <!-- starts at -->
+      <div class="form-group">
+        <label for="startsAt">Starts at</label>
+        <input
+          type="datetime"
+          class="form-control"
+          id="startsAt"
+          [value]="modalData.event.start"
+          [disabled]="true"
+        />
+      </div>
+
+      <!-- ends at -->
+      <div class="form-group">
+        <label for="endsAt">Ends at</label>
+        <input
+          type="datetime"
+          class="form-control"
+          id="endsAt"
+          [value]="modalData.event.end"
+          [disabled]="true"
+        />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <!-- delete button -->
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="deleteEvent(modalData.event)"
+      [disabled]="!modalData.event.id"
+    >
+      Delete
+    </button>
+
+    <!-- ok button -->
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      OK
+    </button>
+  </div>
+</ng-template>
+
+<!-- Add new Timetable item form modal -->
+<ng-template #modalNewTimeTable let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Add new timetable - {{ filterVal }}</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="newTimeTableForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="subjectName">Subject</label>
+        <input
+          type="text"
+          class="form-control"
+          id="subjectName"
+          formControlName="subjectName"
+          placeholder="Enter subject name"
+        />
+      </div>
+
+      <!-- Start date calendar select -->
+      <div class="form-group">
+        <label for="startTime">Start date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="startTime"
+          formControlName="startTime"
+          placeholder="Enter start date"
+          mwlFlatpickr
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          placeholder="Not set"
+        />
+      </div>
+
+      <!-- End date calendar select -->
+      <div class="form-group">
+        <label for="endTime">End date</label>
+        <input
+          type="datetime-local"
+          class="form-control"
+          id="endTime"
+          formControlName="endTime"
+          placeholder="Enter end date"
+          mwlFlatpickr
+          [min]="newTimeTableForm.get('startTime').value"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          placeholder="Not set"
+        />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      Cancel
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="onSubmit()"
+      [disabled]="!newTimeTableForm.valid"
+    >
+      Add
+    </button>
+  </div>
+</ng-template>

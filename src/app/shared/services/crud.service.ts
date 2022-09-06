@@ -216,13 +216,13 @@ export class CrudService {
       const timeTableNew = {
         id: subjectId,
         subjectName: timeTable["subjectName"],
-        subjectCode: timeTable["subjectCode"],
         subjectGrade: grade,
-        assignedTeacher: timeTable["subjectTeacher"],
-        subjectRoom: timeTable["subjectRoom"],
-        startTime: timeTable["start"],
-        endTime: timeTable["end"],
-        dayOfWeek: timeTable["dayOfWeek"],
+        assignedTeacher: "",
+        startTime: Utils.getDateTimeInMilliseconds2(timeTable["startTime"]),
+        endTime: Utils.getDateTimeInMilliseconds2(timeTable["endTime"]),
+        dayOfWeek: Utils.getDayOfWeekFromMilliseconds(
+          Utils.getDateTimeInMilliseconds2(timeTable["startTime"])
+        ),
       };
 
       return subjectsRef
@@ -286,6 +286,14 @@ export class CrudService {
 
     const calendarEventsRef: AngularFirestoreDocument<any> = this.afs.doc(
       `calendar_events/${schoolId}/${targetT}/${documentId}`
+    );
+    return calendarEventsRef.delete();
+  }
+
+  deleteTimeTableItem(grade: string, documentId: string): Promise<any> {
+    const schoolId = Utils.getUserId();
+    const calendarEventsRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `subjects/${schoolId}/${grade}/${documentId}`
     );
     return calendarEventsRef.delete();
   }
