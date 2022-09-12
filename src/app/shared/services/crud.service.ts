@@ -150,6 +150,26 @@ export class CrudService {
     }
   }
 
+  updateUserRole(userPhone: string, role: string) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${userPhone}`
+    );
+
+    userRef
+      .set(
+        {
+          accountType: role,
+        },
+        { merge: true }
+      )
+      .then(() => {
+        this.toastr.success("User role updated successfully");
+      })
+      .catch((error) => {
+        this.toastr.error("Unable to update user role");
+      });
+  }
+
   DeclineUser(user) {
     if (user != null && user[0] != "") {
       const schoolId = Utils.getUserId();

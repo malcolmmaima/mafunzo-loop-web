@@ -36,6 +36,7 @@
                 <td
                   *ngFor="let cell of row; let i = index"
                   [ngClass]="{ 'text-success': i == 4 && cell == true }"
+                  (mwlClick)="showMember(row)"
                 >
                   {{ cell }}
                 </td>
@@ -68,3 +69,95 @@
     </div>
   </div>
 </div>
+
+<!-- View member / Edit member -->
+<ng-template #modalContentView let-close="close">
+  <!-- <div class="modal-header">
+    <h4 class="modal-title">View Member</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div> -->
+  <div class="modal-body">
+    <form [formGroup]="memberForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Member Details</h4>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="name"
+                      id="name"
+                      placeholder="Name"
+                      [value]="selectedUser"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="email"
+                      id="email"
+                      placeholder="Email"
+                      [value]="selectedUserEmail"
+                      disabled
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="phone"
+                      id="phone"
+                      placeholder="Phone"
+                      [value]="selectedUserPhone"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="role">Role</label>
+                    <select
+                      class="form-control"
+                      id="role"
+                      formControlName="role"
+                      [value]="selectedUserRole"
+                    >
+                      <option value="PARENT">Parent</option>
+                      <option value="TEACHER">Teacher</option>
+                      <option value="STUDENT">Student</option>
+                      <option value="BUS_DRIVER">Bus Driver</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Update button -->
+    <button class="btn btn-primary float-right" (click)="onSubmit()">
+      Update
+    </button>
+  </div>
+</ng-template>

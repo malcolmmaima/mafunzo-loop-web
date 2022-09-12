@@ -1,6 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { AuthService } from "../../shared/services/auth.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import Utils from "../../helpers/MafunzoUtils";
 import { CrudService } from "../../shared/services/crud.service";
 
@@ -19,10 +21,21 @@ export class MembersListComponent implements OnInit {
 
   loading = false;
   usersFound = false;
+  selectedUser: string;
+  selectedUserPhone: string;
+  selectedUserRole: string;
+  selectedUserEmail: string;
+
+  @ViewChild("modalContentView", { static: true })
+  modalContentView: TemplateRef<any>;
+
+  memberForm!: FormGroup;
 
   constructor(
     private crudService: CrudService,
     private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private modal: NgbModal,
     public toastr: ToastrService
   ) {}
   ngOnInit(): void {
@@ -55,6 +68,10 @@ export class MembersListComponent implements OnInit {
 
   declineUser(user) {
     this.crudService.DeclineUser(user);
+  }
+
+  updateMemberRole(userPhone: string, userRole: string) {
+    this.crudService.updateUserRole(userPhone, userRole);
   }
 
   filterMembers(filterValue: string) {
@@ -138,6 +155,32 @@ export class MembersListComponent implements OnInit {
           this.usersFound = this.tableData1.dataRows.length > 0;
         }
       }
+    });
+  }
+
+  onSubmit() {
+    this.updateMemberRole(this.selectedUserPhone, this.memberForm.value.role);
+    setTimeout(() => {
+      this.modal.dismissAll();
+    }, 2000);
+  }
+
+  showMember(row) {
+    this.selectedUserPhone = row[3];
+    this.selectedUserEmail = row[2];
+    this.selectedUserRole = row[1];
+    this.selectedUser = row[0];
+
+    this.memberForm = this.formBuilder.group({
+      name: [this.selectedUser, Validators.required],
+      email: [this.selectedUserEmail, Validators.required],
+      phone: [this.selectedUserPhone, Validators.required],
+      role: [this.selectedUserRole, Validators.required],
+    });
+
+    this.modal.open(this.modalContentView, {
+      size: "lg",
+      windowClass: "zindex",
     });
   }
 }
