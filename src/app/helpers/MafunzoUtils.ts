@@ -62,4 +62,14 @@ export default class Utils {
     const el = document.getElementById(element);
     el.scrollIntoView({ behavior: "smooth" });
   }
+
+  //a function that takes a string and extracts phone numbers from it and returns it as a string
+  static extractPhoneNumber(text: string) {
+    const regex = /\+?\d[\d -]{8,12}\d/g;
+    const results = text.match(regex);
+    if (results) {
+      return results[0];
+    }
+    return "";
+  }
 }

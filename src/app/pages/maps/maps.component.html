@@ -14,6 +14,9 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
+        <button class="btn btn-primary float-right" (mwlClick)="addNewBus()">
+          Add New Bus
+        </button>
         <h4 class="card-title">Buses</h4>
       </div>
       <div class="card-body">
@@ -33,7 +36,10 @@
                   </span>
                   <!-- add pencil icon -->
                   <span *ngIf="cell == row[4]">
-                    <i class="nc-icon nc-settings-gear-65"></i>
+                    <i
+                      class="nc-icon nc-settings-gear-65"
+                      (mwlClick)="showBusModal(row)"
+                    ></i>
                   </span>
                 </td>
               </tr>
@@ -44,3 +50,161 @@
     </div>
   </div>
 </div>
+
+<!-- view bus modal and show drop down of drivers -->
+<ng-template #modalContentView let-close="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Bus Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="busDetailsForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Registration Number</label>
+            <input
+              id="vin"
+              formControlName="vin"
+              type="text"
+              class="form-control"
+              placeholder="Registration Number"
+              [value]="selectedBusVIN"
+              disabled
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Assigned Driver</label>
+            <select
+              class="form-control"
+              id="assignedDriver"
+              formControlName="assignedDriver"
+            >
+              <!-- loop through schoolDrivers hashtable and display key and value with default as {selectedBusDriverPhone} - {selectedBusDriverName} -->
+              <option
+                *ngFor="let driver of schoolDrivers | keyvalue"
+                [value]="driver.key"
+                [selected]="driver.key == selectedBusDriverPhone"
+              >
+                {{ driver.key }} - {{ driver.value }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Active</label>
+            <select
+              class="form-control"
+              [value]="selectedBusActive"
+              id="active"
+              formControlName="active"
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">
+      Close
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="saveBusDetails(selectedBusId)"
+      [disabled]="!busDetailsForm.valid"
+    >
+      Save changes
+    </button>
+  </div>
+</ng-template>
+
+<!-- Add new bus -->
+<ng-template #modalContentAddView let-close="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Bus Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="busDetailsForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Registration Number</label>
+            <input
+              id="vin"
+              formControlName="vin"
+              type="text"
+              class="form-control"
+              placeholder="Registration Number"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Assigned Driver</label>
+            <select
+              class="form-control"
+              id="assignedDriver"
+              formControlName="assignedDriver"
+            >
+              <!-- loop through schoolDrivers hashtable and display key and value with default as {selectedBusDriverPhone} - {selectedBusDriverName} -->
+              <option
+                *ngFor="let driver of schoolDrivers | keyvalue"
+                [value]="driver.key"
+                [selected]="driver.key == selectedBusDriverPhone"
+              >
+                {{ driver.key }} - {{ driver.value }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Active</label>
+            <select
+              class="form-control"
+              [value]="false"
+              id="active"
+              formControlName="active"
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">
+      Close
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="addBus()"
+      [disabled]="!busDetailsForm.valid"
+    >
+      Add Bus
+    </button>
+  </div>
+</ng-template>

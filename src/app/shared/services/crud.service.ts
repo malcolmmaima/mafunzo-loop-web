@@ -417,7 +417,7 @@ export class CrudService {
   fetchSchoolBuses() {
     const schoolId = Utils.getUserId();
     const schoolBusesRef: AngularFirestoreDocument<any> = this.afs.doc(
-      `school_bus/ rg2XPdKQOYVyOt7hlLxxhZGxqu22`
+      `school_bus/${schoolId}`
     );
 
     return schoolBusesRef.collection("BUS").valueChanges();
@@ -425,5 +425,53 @@ export class CrudService {
 
   GetBusLocation(assignedDriver: string) {
     return this.afs.doc(`location/ ${assignedDriver}`).valueChanges();
+  }
+
+  UpdateBusDetails(busId: string, busDetails: any) {
+    const schoolId = Utils.getUserId();
+    const schoolBusRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `school_bus/${schoolId}`
+    );
+
+    return schoolBusRef
+      .collection("BUS")
+      .doc(busId)
+      .set(busDetails, { merge: true });
+  }
+
+  AddBus(busDetails) {
+    const schoolId = Utils.getUserId();
+    const schoolBusRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `school_bus/${schoolId}`
+    );
+
+    const newBusDetails = {
+      id: this.afs.createId(),
+      vin: busDetails["vin"],
+      assignedDriver: busDetails["assignedDriver"],
+      active: busDetails["active"],
+    };
+
+    //make sure bus with specified vin does not exist already
+    schoolBusRef
+      .collection("BUS", (ref) => ref.where("vin", "==", busDetails["vin"]))
+      .valueChanges()
+      .subscribe((data) => {
+        if (data.length == 0) {
+          schoolBusRef
+            .collection("BUS")
+            .doc(newBusDetails.id)
+            .set(newBusDetails, { merge: true })
+            .then(() => {
+              this.toastr.success("Bus added successfully");
+            })
+            .catch((error) => {
+              console.log(error);
+              this.toastr.error("Unable to add bus");
+            });
+        } else {
+          this.toastr.error("Bus with specified VIN already exists");
+        }
+      });
   }
 }

@@ -22,6 +22,22 @@ export class MapsComponent implements OnInit {
   marker: any;
   map: any;
 
+  //selected bus details
+  selectedBusId: string;
+  selectedBusVIN: string;
+  selectedBusDriverPhone: string;
+  selectedBusDriverName: string;
+  selectedBusActive: boolean;
+
+  //initialize schoolDrivers hashTable
+  schoolDrivers = {};
+
+  @ViewChild("modalContentView", { static: true })
+  modalContentView: TemplateRef<any>;
+
+  @ViewChild("modalContentAddView", { static: true })
+  modalContentAddView: TemplateRef<any>;
+
   constructor(
     private crudService: CrudService,
     public toastr: ToastrService,
@@ -29,7 +45,11 @@ export class MapsComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {}
 
+  busDetailsForm!: FormGroup;
   ngOnInit() {
+    //get all school drivers
+    this.getSchoolDrivers();
+
     this.tableData1 = {
       headerRow: ["Registration Number", "Assigned Driver", "Active", ""],
       dataRows: [],
@@ -59,12 +79,12 @@ export class MapsComponent implements OnInit {
               res[i].active,
               res[i].id,
             ]);
-          });
 
-        //remove duplicates from table data
-        this.tableData1.dataRows = this.tableData1.dataRows.filter(
-          (v, i, a) => a.findIndex((t) => t[2] === v[2]) === i
-        );
+            //make sure there are no duplicates in the table
+            this.tableData1.dataRows = this.tableData1.dataRows.filter(
+              (v, i, a) => a.findIndex((t) => t[0] === v[0]) === i
+            );
+          });
       }
     });
     var mapOptions = {
@@ -176,5 +196,96 @@ export class MapsComponent implements OnInit {
       //scroll to map
       Utils.scrollTo("map");
     });
+  }
+
+  showBusModal(row) {
+    this.selectedBusId = row[4];
+    this.selectedBusActive = row[3];
+    this.selectedBusDriverPhone = row[2];
+    this.selectedBusDriverName = row[1];
+    this.selectedBusVIN = row[0];
+
+    this.busDetailsForm = this.formBuilder.group({
+      assignedDriver: [this.selectedBusDriverPhone, Validators.required],
+      active: [this.selectedBusActive, Validators.required],
+      vin: [this.selectedBusVIN, Validators.required],
+    });
+
+    this.modal.open(this.modalContentView, {
+      size: "lg",
+      windowClass: "zindex",
+    });
+  }
+
+  getSchoolDrivers() {
+    //get school drivers and map them to a hash map of phone number and name
+    const schoolID = Utils.getUserId();
+
+    this.crudService.GetWaitListUsers().subscribe((res) => {
+      //empty hash table
+      this.schoolDrivers = {};
+      //get my school id (logged in)
+
+      //loop through all users
+      for (let i = 0; i < res.length; i++) {
+        //check if user is a driver
+        for (const key in res[i]["schools"]) {
+          if (key === schoolID && res[i]["accountType"] === "BUS_DRIVER") {
+            //add user to hash table
+            this.schoolDrivers[res[i]["phone"]] = res[i]["firstName"];
+          }
+        }
+      }
+    });
+  }
+
+  saveBusDetails(selectedBusId) {
+    const busDetails = {
+      assignedDriver: Utils.extractPhoneNumber(
+        this.busDetailsForm.value.assignedDriver
+      ),
+      active: JSON.parse(
+        this.busDetailsForm.value.active.toString().toLowerCase()
+      ),
+      vin: this.busDetailsForm.value.vin,
+    };
+    //save bus details
+    this.crudService.UpdateBusDetails(selectedBusId, busDetails).then((res) => {
+      this.modal.dismissAll();
+      this.ngOnInit();
+    });
+  }
+
+  addNewBus() {
+    this.busDetailsForm = this.formBuilder.group({
+      assignedDriver: ["", Validators.required],
+      active: [false, Validators.required],
+      vin: ["", Validators.required],
+    });
+
+    this.modal.open(this.modalContentAddView, {
+      size: "lg",
+      windowClass: "zindex",
+    });
+  }
+
+  addBus() {
+    const busDetails = {
+      assignedDriver: Utils.extractPhoneNumber(
+        this.busDetailsForm.value.assignedDriver
+      ),
+      active: JSON.parse(
+        this.busDetailsForm.value.active.toString().toLowerCase()
+      ),
+      vin: this.busDetailsForm.value.vin,
+    };
+
+    this.crudService.AddBus(busDetails);
+
+    //wait 1 second for bus to be added then dismiss modal
+    setTimeout(() => {
+      this.modal.dismissAll();
+      this.ngOnInit();
+    }, 1000);
   }
 }
