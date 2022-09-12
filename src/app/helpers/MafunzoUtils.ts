@@ -57,4 +57,9 @@ export default class Utils {
     const date = new Date(milliseconds);
     return date.getDay() - 1; // our days start from monday as 0
   }
+
+  static scrollTo(element: string) {
+    const el = document.getElementById(element);
+    el.scrollIntoView({ behavior: "smooth" });
+  }
 }

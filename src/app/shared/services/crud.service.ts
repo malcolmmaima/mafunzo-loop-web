@@ -413,4 +413,17 @@ export class CrudService {
 
     return gradeTimeTableRef.collection(grade).valueChanges();
   }
+
+  fetchSchoolBuses() {
+    const schoolId = Utils.getUserId();
+    const schoolBusesRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `school_bus/ rg2XPdKQOYVyOt7hlLxxhZGxqu22`
+    );
+
+    return schoolBusesRef.collection("BUS").valueChanges();
+  }
+
+  GetBusLocation(assignedDriver: string) {
+    return this.afs.doc(`location/ ${assignedDriver}`).valueChanges();
+  }
 }

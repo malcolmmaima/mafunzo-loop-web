@@ -1,6 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ToastrService } from "ngx-toastr";
+import Utils from "../../helpers/MafunzoUtils";
+import { CrudService } from "../../shared/services/crud.service";
 
 declare var google: any;
+declare interface TableData {
+  headerRow: string[];
+  dataRows: string[][];
+}
 
 @Component({
   moduleId: module.id,
@@ -8,11 +17,59 @@ declare var google: any;
   templateUrl: "maps.component.html",
 })
 export class MapsComponent implements OnInit {
+  public tableData1: TableData;
+  myLatlng: any;
+  marker: any;
+  map: any;
+
+  constructor(
+    private crudService: CrudService,
+    public toastr: ToastrService,
+    private modal: NgbModal,
+    private formBuilder: FormBuilder
+  ) {}
+
   ngOnInit() {
-    var myLatlng = new google.maps.LatLng(36.820026, -1.2857857);
+    this.tableData1 = {
+      headerRow: ["Registration Number", "Assigned Driver", "Active", ""],
+      dataRows: [],
+    };
+
+    this.myLatlng = new google.maps.LatLng(-1.2857857, 36.820026);
+
+    this.crudService.fetchSchoolBuses().subscribe((res) => {
+      this.tableData1.dataRows = [];
+      this.tableData1.headerRow = [];
+      this.tableData1.headerRow.push(
+        "Registration Number",
+        "Assigned Driver",
+        "Phone",
+        "Active",
+        ""
+      );
+      for (let i = 0; i < res.length; i++) {
+        //for each school bus get user details with assignedDriver as the document id in users collection
+        this.crudService
+          .GetUserDetails(res[i].assignedDriver)
+          .subscribe((user) => {
+            this.tableData1.dataRows.push([
+              res[i].vin,
+              user.firstName + " " + user.lastName,
+              res[i].assignedDriver,
+              res[i].active,
+              res[i].id,
+            ]);
+          });
+
+        //remove duplicates from table data
+        this.tableData1.dataRows = this.tableData1.dataRows.filter(
+          (v, i, a) => a.findIndex((t) => t[2] === v[2]) === i
+        );
+      }
+    });
     var mapOptions = {
       zoom: 13,
-      center: myLatlng,
+      center: this.myLatlng,
       scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
       styles: [
         {
@@ -68,14 +125,56 @@ export class MapsComponent implements OnInit {
         },
       ],
     };
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    this.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-    var marker = new google.maps.Marker({
-      position: myLatlng,
-      title: "Hello World!",
+    this.marker = new google.maps.Marker({
+      position: this.myLatlng,
+      title: "Karibu Mafunzo",
     });
 
     // To add the marker to the map, call setMap();
-    marker.setMap(map);
+    this.marker.setMap(this.map);
+  }
+
+  showBus(row) {
+    // make a call to get location from location collection with assignedDriver as the document id
+
+    this.crudService.GetBusLocation(row[2]).subscribe((res) => {
+      //clear all previous markers from map
+      this.marker.setMap(null);
+
+      this.myLatlng = new google.maps.LatLng(res["latitude"], res["longitude"]);
+      this.marker = new google.maps.Marker({
+        position: this.myLatlng,
+        title: row[0],
+      });
+      this.marker.setMap(this.map);
+      this.map.setCenter(this.myLatlng);
+      this.marker.setPosition(this.myLatlng);
+
+      this.map.setZoom(15);
+
+      // set custom marker icon
+      this.marker.setIcon("assets/img/school-bus.png");
+
+      //show marker info window
+      var infowindow = new google.maps.InfoWindow({
+        content:
+          "<strong>Driver</strong>: " +
+          row[1] +
+          "<br /> <strong>Assigned</strong>: " +
+          row[0],
+      });
+
+      infowindow.open(this.map, this.marker);
+
+      //show marker info window on click
+      this.marker.addListener("click", function () {
+        infowindow.open(this.map, this.marker);
+      });
+
+      //scroll to map
+      Utils.scrollTo("map");
+    });
   }
 }
