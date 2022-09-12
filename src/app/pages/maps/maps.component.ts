@@ -159,43 +159,51 @@ export class MapsComponent implements OnInit {
   showBus(row) {
     // make a call to get location from location collection with assignedDriver as the document id
 
-    this.crudService.GetBusLocation(row[2]).subscribe((res) => {
-      //clear all previous markers from map
-      this.marker.setMap(null);
+    this.crudService.GetBusLocation(row[2]).subscribe(
+      (res) => {
+        //clear all previous markers from map
+        this.marker.setMap(null);
 
-      this.myLatlng = new google.maps.LatLng(res["latitude"], res["longitude"]);
-      this.marker = new google.maps.Marker({
-        position: this.myLatlng,
-        title: row[0],
-      });
-      this.marker.setMap(this.map);
-      this.map.setCenter(this.myLatlng);
-      this.marker.setPosition(this.myLatlng);
+        this.myLatlng = new google.maps.LatLng(
+          res["latitude"],
+          res["longitude"]
+        );
+        this.marker = new google.maps.Marker({
+          position: this.myLatlng,
+          title: row[0],
+        });
+        this.marker.setMap(this.map);
+        this.map.setCenter(this.myLatlng);
+        this.marker.setPosition(this.myLatlng);
 
-      this.map.setZoom(15);
+        this.map.setZoom(20);
 
-      // set custom marker icon
-      this.marker.setIcon("assets/img/school-bus.png");
+        // set custom marker icon
+        this.marker.setIcon("assets/img/school-bus.png");
 
-      //show marker info window
-      var infowindow = new google.maps.InfoWindow({
-        content:
-          "<strong>Driver</strong>: " +
-          row[1] +
-          "<br /> <strong>Assigned</strong>: " +
-          row[0],
-      });
+        //show marker info window
+        var infowindow = new google.maps.InfoWindow({
+          content:
+            "<strong>Driver</strong>: " +
+            row[1] +
+            "<br /> <strong>Assigned</strong>: " +
+            row[0],
+        });
 
-      infowindow.open(this.map, this.marker);
-
-      //show marker info window on click
-      this.marker.addListener("click", function () {
         infowindow.open(this.map, this.marker);
-      });
 
-      //scroll to map
-      Utils.scrollTo("map");
-    });
+        //show marker info window on click
+        this.marker.addListener("click", function () {
+          infowindow.open(this.map, this.marker);
+        });
+
+        //scroll to map
+        Utils.scrollTo("map");
+      },
+      (err) => {
+        this.toastr.error("Error getting bus location", "Error");
+      }
+    );
   }
 
   showBusModal(row) {
