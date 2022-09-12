@@ -471,6 +471,7 @@ export class CrudService {
             });
         } else {
           this.toastr.error("Bus with specified VIN already exists");
+          return;
         }
       });
   }
