@@ -41,11 +41,15 @@ export class FixedPluginComponent implements OnInit {
     if (this.localsetSidebarColor != undefined) {
       this.sidebarColor = this.localsetSidebarColor;
       this.changeSidebarColor(this.sidebarColor);
+    } else {
+      this.changeSidebarColor("black");
     }
 
     if (this.localsetSidebarActiveColor != undefined) {
       this.sidebarActiveColor = this.localsetSidebarActiveColor;
       this.changeSidebarActiveColor(this.sidebarActiveColor);
+    } else {
+      this.changeSidebarActiveColor("danger");
     }
   }
 }
