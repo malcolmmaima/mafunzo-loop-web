@@ -11,16 +11,16 @@
 7. Navigate to: [http://localhost:4200/](http://localhost:4200/)
 
 ## Screenshots
-![mafunzo-web-1](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/be9b11de-408f-4655-b07f-13908c6c8aef)
-![mafunzo-web-2](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/06f6ddc7-cc4c-49aa-a6c2-18193b48f3f1)
-![mafunzo-web-3](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/8b3db69b-8e08-44ec-ba6a-40d7ece7a185)
-![mafunzo-web-4](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/fc152e58-e0c0-494b-ab4b-669413f27185)
-![mafunzo-web-5](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/6dc3b666-5eea-4e36-ae66-181312eddaae)
-![mafunzo-web-6](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/0b417581-108a-415b-855d-3462ca35ca25)
-![mafunzo-web-7](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/5fbeea99-9294-4e98-a0f9-e44e2fbabd3b)
-![mafunzo-web-8](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/5e0633fa-f885-421e-9f0e-68c46cd0fe0e)
-![mafunzo-web-9](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/6e274607-e3d5-4275-8b6f-b973be73b10d)
-![mafunzo-web-10](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/a2ef0bd9-e1f6-4594-94ba-8e7f182402d8)
+![mafunzo-web-1](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/17d56ce7-71cf-4174-b361-0f5c72368092)
+![mafunzo-web-2](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/55e4f747-618c-44c9-ac9e-5c4e90def81b)
+![mafunzo-web-3](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/8a9efa81-6377-42be-9c87-74022e00545a)
+![mafunzo-web-4](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/7af05b7f-e975-4540-86f7-2d4c19df9dab)
+![mafunzo-web-5](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/bca7641b-ceaf-4033-b127-4b6dda453dde)
+![mafunzo-web-6](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/1f9792d2-c27b-4800-adbf-115a988307ca)
+![mafunzo-web-7](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/9afedfee-b1a4-47f3-8e37-4bc7b318f7f9)
+![mafunzo-web-8](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/39d5e390-1826-4507-9d80-c1f92ecb5ad4)
+![mafunzo-web-9](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/a2da7e27-12de-48f7-ae9e-d5be0092a29d)
+![mafunzo-web-10](https://github.com/malcolmmaima/mafunzo-loop-web/assets/3639153/0d2c0faa-baca-4b6c-9bcd-7edab0256474)
 
 
 ## Browser Support
